@@ -9,6 +9,7 @@ public:/*const*/ enum btnsEnum
 		playBtn,
 		loadBtn,
 		settingBtn,
+		statistic,
 		aboutGame,
 		quitBtn,
 	};
@@ -19,8 +20,9 @@ private:
 		{"ÈÃÐÀÒÜ", {positionStartX, positionStartY, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 		{"ÇÀÃÐÓÇÈÒÜ", {positionStartX, positionStartY*2, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 		{"ÍÀÑÒÐÎÉÊÈ", {positionStartX, positionStartY * 3, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"ÎÁ ÈÃÐÅ", {positionStartX, positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"ÂÛÕÎÄ", {positionStartX,positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"ÑÒÀÒÈÑÒÈÊÀ", {positionStartX, positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"ÎÁ ÈÃÐÅ", {positionStartX, positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"ÂÛÕÎÄ", {positionStartX,positionStartY * 6, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect menuRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH};
 	
@@ -32,6 +34,7 @@ public:
 	}
 	~menuClass()
 	{
+		this->btnsV.clear();
 
 	}
 	void blit() {

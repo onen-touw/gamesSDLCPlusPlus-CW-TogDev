@@ -6,30 +6,28 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 
+
+///nessesary for menu work
+///========================================================================================
 struct btnsStruct
 {
 	std::string btnText = "";
 	SDL_Rect rect = { 0,0,0,0 };
 };
-
-struct imagePath
-{
-	std::string path;
-	short int position;
-};
-
 struct menuSettings
 {
 	//short padding5 = 5;	///px
 	short btnH=45, btnW = 150;
+	enum menuState
+	{
+		close,
+		mainMenuWindow,
+		load,
+		setting,
+		statistic,
+		about
+	};
 };
-
-struct point
-{
-	short p1 = 0;
-	short p2 = 0;
-};
-
 struct winSettings
 {
 	const short header = 70;
@@ -40,6 +38,23 @@ struct winSettings
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
 };
+///========================================================================================
+
+
+
+struct imagePath
+{
+	std::string path;
+	short int position;
+};
+
+
+struct point
+{
+	short p1 = 0;
+	short p2 = 0;
+};
+
 
 struct cell
 {
@@ -47,8 +62,13 @@ struct cell
 	bool live = false;
 };
 
-struct fieldStruct
+struct fieldSettings
 {
+	enum hardnessEn
+	{
+		easy,normal,hard,
+	};
+	short hardness = hardnessEn::easy;
 	enum images
 	{
 		cellDead,
@@ -67,5 +87,6 @@ namespace gameSettings {
 
 	extern winSettings winSetting;
 	extern menuSettings menuSetting;
+	extern fieldSettings fieldSetting;
 }
 
