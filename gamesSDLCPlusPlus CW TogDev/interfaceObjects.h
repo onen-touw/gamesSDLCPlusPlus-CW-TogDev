@@ -36,10 +36,14 @@ public:
 
 	~interfaceObjects()
 	{
+		this->btns.clear();
 		SDL_FreeSurface(this->bgImg);
 		SDL_FreeSurface(this->btnImg);
-		this->btns.clear();
-		TTF_CloseFont(this->font);
+		/*if (this->font != nullptr)
+		{
+			std::cout << "notnull";
+		}*/
+		//TTF_CloseFont(this->font);
 	}
 
 	void blitBg() {
@@ -57,7 +61,7 @@ public:
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect );
 	}
 
-	///notUsed
+	//notUsed
 	void blitWithTxt(const char* text, SDL_Color color = {0,0,0}) {
 		if (this->bgImg == nullptr)
 		{

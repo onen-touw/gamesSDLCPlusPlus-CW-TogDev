@@ -18,6 +18,15 @@ struct menuSettings
 {
 	//short padding5 = 5;	///px
 	short btnH=45, btnW = 150;
+	enum menuState
+	{
+		close,
+		mainMenuWindow,
+		load,
+		setting,
+		statistic,
+		about
+	};
 };
 struct winSettings
 {
@@ -53,8 +62,13 @@ struct cell
 	bool live = false;
 };
 
-struct fieldStruct
+struct fieldSettings
 {
+	enum hardnessEn
+	{
+		easy,normal,hard,
+	};
+	short hardness = hardnessEn::easy;
 	enum images
 	{
 		cellDead,
@@ -73,5 +87,6 @@ namespace gameSettings {
 
 	extern winSettings winSetting;
 	extern menuSettings menuSetting;
+	extern fieldSettings fieldSetting;
 }
 

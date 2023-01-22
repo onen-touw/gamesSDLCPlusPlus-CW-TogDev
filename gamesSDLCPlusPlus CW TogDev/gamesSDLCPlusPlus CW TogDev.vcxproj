@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aboutWinClass.cpp" />
     <ClCompile Include="baseGameClass.cpp" />
     <ClCompile Include="gameplayClass.cpp" />
     <ClCompile Include="interfaceObjects.cpp" />
@@ -140,8 +141,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuClass.cpp" />
     <ClCompile Include="settings.cpp" />
+    <ClCompile Include="settingWinClass.cpp" />
+    <ClCompile Include="statisticWinClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aboutWinClass.h" />
     <ClInclude Include="baseGameClass.h" />
     <ClInclude Include="gameplayClass.h" />
     <ClInclude Include="interfaceObjects.h" />
@@ -149,6 +153,8 @@
     <ClInclude Include="imageClass.h" />
     <ClInclude Include="menuClass.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="settingWinClass.h" />
+    <ClInclude Include="statisticWinClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="font\courier.ttf" />
