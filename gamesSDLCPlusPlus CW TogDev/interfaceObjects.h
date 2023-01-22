@@ -1,7 +1,7 @@
 #pragma once
 
 #include"settings.h" 
-///for future developing this progect
+
 
 class interfaceObjects
 {

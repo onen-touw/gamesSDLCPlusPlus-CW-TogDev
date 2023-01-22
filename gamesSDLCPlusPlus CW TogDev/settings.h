@@ -6,30 +6,19 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 
+
+///nessesary for menu work
+///========================================================================================
 struct btnsStruct
 {
 	std::string btnText = "";
 	SDL_Rect rect = { 0,0,0,0 };
 };
-
-struct imagePath
-{
-	std::string path;
-	short int position;
-};
-
 struct menuSettings
 {
 	//short padding5 = 5;	///px
 	short btnH=45, btnW = 150;
 };
-
-struct point
-{
-	short p1 = 0;
-	short p2 = 0;
-};
-
 struct winSettings
 {
 	const short header = 70;
@@ -40,6 +29,23 @@ struct winSettings
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
 };
+///========================================================================================
+
+
+
+struct imagePath
+{
+	std::string path;
+	short int position;
+};
+
+
+struct point
+{
+	short p1 = 0;
+	short p2 = 0;
+};
+
 
 struct cell
 {
