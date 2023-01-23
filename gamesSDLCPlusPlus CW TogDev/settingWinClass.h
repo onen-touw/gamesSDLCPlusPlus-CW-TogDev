@@ -24,7 +24,7 @@ private:
 		{"ÏÐÈÍßÒÜ", {positionStartX, positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 		{"ÎÒÌÅÍÀ", {positionStartX, positionStartY * 6, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
-	SDL_Rect menuRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH };
+	SDL_Rect winRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH };
 	
 
 	short tempHardness = gameSettings::fieldSetting.hardness;
@@ -37,7 +37,7 @@ public:
 	settingWinClass(SDL_Surface* bgImg, SDL_Surface* btnImg,SDL_Surface* switchImg, TTF_Font* font) :
 		interfaceObjects(bgImg, btnImg, font) {
 		this->btns = this->btnsV;
-		this->objRect = this->menuRect;
+		this->objRect = this->winRect;
 		this->switchImg = switchImg;
 	}
 	~settingWinClass()

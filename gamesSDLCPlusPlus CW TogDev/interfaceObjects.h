@@ -33,6 +33,10 @@ public:
 		this->btnImg = btnImg;
 		this->font = font;
 	}
+	
+	interfaceObjects(SDL_Surface* bgImg) {
+		this->bgImg = bgImg;
+	}
 
 	~interfaceObjects()
 	{

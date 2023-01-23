@@ -6,6 +6,9 @@
 #include"settingWinClass.h"
 #include"aboutWinClass.h"
 #include"statisticWinClass.h"
+#include"headerClass.h"
+
+#include"tempBgAllClass.h"
 
 #include "imageClass.h"
 #include"fontClass.h"
@@ -37,6 +40,10 @@ public:
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
+			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
+			tempBgAllClass tempBg = tempBgAllClass(img.loadOneImg("./image/menu/mainBg.png"));
+			header.blit();
+			tempBg.blit();
 			while (SDL_PollEvent(&event) || this->game)
 			{
 				if (event.type == SDL_QUIT)
@@ -47,7 +54,16 @@ public:
 				else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
 				{
 					SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
-					if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
+
+					if (this->menuFlag == gameSettings::menuSetting.close)
+					{
+						if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.openMenu)
+						{
+						menu.blit();
+						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						}
+					}
+					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
 					{
 
 						switch (menu.checkButtonClick(this->cursor_X, this->cursor_Y)) {
@@ -55,7 +71,7 @@ public:
 							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
-
+							this->menuFlag = gameSettings::menuSetting.close;
 							break;
 						case menu.btnsEnum::loadBtn:
 							std::cout << "Menu::buttons::load\n";
@@ -79,7 +95,12 @@ public:
 							break;
 						case menu.btnsEnum::quitBtn:
 							std::cout << "Menu::buttons::quit\n";
-							return 0;
+							header.blit();
+							tempBg.blit();
+
+							///temp
+							this->menuFlag = gameSettings::menuSetting.close;
+							//return 0;
 							break;
 						
 						default:
@@ -145,10 +166,11 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
-					menu.blit();
-					this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+					header.blit();
+					tempBg.blit();
 
 				}
+				
 				
 
 
