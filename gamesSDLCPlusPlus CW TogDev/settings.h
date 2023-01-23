@@ -31,7 +31,7 @@ struct menuSettings
 struct winSettings
 {
 	const short header = 70;
-	const short winH = 600;
+	const short winH = 670;
 	const short winW = 600;
 	const short winTopBorder = 31;
 
@@ -51,8 +51,8 @@ struct imagePath
 
 struct point
 {
-	short p1 = 0;
-	short p2 = 0;
+	short int p1 = 0;
+	short int p2 = 0;
 };
 
 
@@ -68,17 +68,28 @@ struct fieldSettings
 	{
 		easy,normal,hard,
 	};
+	short int easyModeNumberOfCells = 12;
+	short int normalModeNumberOfCells = 25;
+	short int hardModeNumberOfCells = 50;
 	short hardness = hardnessEn::easy;
 	enum images
 	{
-		cellDead,
-		cellLive,
+		cellDeadEasy,
+		cellLiveEasy,
+		cellDeadNormal,
+		cellLiveNormal,
+		cellDeadHard,
+		cellLiveHard,
 
 		TOTAL
 	};
 	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
+		{"./image/fieldImages/cellDeadEasy.png", images::cellDeadEasy},
+		{"./image/fieldImages/cellLiveEasy.png", images::cellLiveEasy},
+		{"./image/fieldImages/cellDeadNormal.png", images::cellDeadNormal},
+		{"./image/fieldImages/cellLiveNormal.png", images::cellLiveNormal},
+		{"./image/fieldImages/cellDeadHard.png", images::cellDeadHard},
+		{"./image/fieldImages/cellLiveHard.png", images::cellLiveHard}
 	};
 
 };
