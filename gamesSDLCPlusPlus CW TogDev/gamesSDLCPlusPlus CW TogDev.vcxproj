@@ -147,6 +147,7 @@ SDL2_ttf.lib</AdditionalDependencies>
   <ItemGroup>
     <ClCompile Include="aboutWinClass.cpp" />
     <ClCompile Include="baseGameClass.cpp" />
+    <ClCompile Include="fieldClass.cpp" />
     <ClCompile Include="gameplayClass.cpp" />
     <ClCompile Include="headerClass.cpp" />
     <ClCompile Include="interfaceObjects.cpp" />
@@ -162,6 +163,7 @@ SDL2_ttf.lib</AdditionalDependencies>
   <ItemGroup>
     <ClInclude Include="aboutWinClass.h" />
     <ClInclude Include="baseGameClass.h" />
+    <ClInclude Include="fieldClass.h" />
     <ClInclude Include="gameplayClass.h" />
     <ClInclude Include="headerClass.h" />
     <ClInclude Include="interfaceObjects.h" />

@@ -6,7 +6,6 @@ protected:
 
 	std::vector<SDL_Surface*> imageVector;
 
-
 private:
 	void createImageVector(int size) {
 		imageVector.resize(size);

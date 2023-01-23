@@ -13,11 +13,14 @@
 #include "imageClass.h"
 #include"fontClass.h"
 
+#include"fieldClass.h"
+
 
 class gameplayClass
 {
 private:
 	baseGameClass base;
+	fieldClass field;
 	
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -26,8 +29,67 @@ private:
 
 	int menuFlag = gameSettings::menuSetting.close;
 
-
+	short int gLoop = 0;
 public:
+	void restart()
+	{
+		this->field = fieldClass();
+		field.getfieldV()[1][0].live = true;
+		field.getfieldV()[1][1].live = true;
+		field.getfieldV()[1][2].live = true;
+		field.getfieldV()[0][2].live = true;
+	}
+	short int numberOfLivingCellsAround(short int i, short int j, fieldClass field)
+	{
+		//std::cout << "start1" << std::endl;
+		short int counter = 0;
+		if (i > 0)
+		{
+			if (field.getfieldV()[i - 1][j].live == true) { counter++; }
+			if (j > 0) { if (field.getfieldV()[i - 1][j - 1].live == true) { counter++; } }
+			if (j < gameSettings::winSetting.winW / field.getCellSize() - 1) { if (field.getfieldV()[i - 1][j + 1].live == true) { counter++; } }
+		}
+		if (i < gameSettings::winSetting.winW / field.getCellSize() - 1)
+		{
+			if (field.getfieldV()[i + 1][j].live == true) { counter++; }
+			if (j > 0) { if (field.getfieldV()[i + 1][j - 1].live == true) { counter++; } }
+			if (j < gameSettings::winSetting.winW / field.getCellSize() - 1) { if (field.getfieldV()[i + 1][j + 1].live == true) { counter++; } }
+		}
+		if (j > 0) { if (field.getfieldV()[i][j - 1].live == true) { counter++; } }
+		if (j < gameSettings::winSetting.winW / field.getCellSize() - 1) { if (field.getfieldV()[i][j + 1].live == true) { counter++; } }
+		//std::cout << "end1" << std::endl;
+		//std::cout << i << " " << j << " " << counter << std::endl;
+		return counter;
+	}
+
+	void oneTickAction()
+	{
+		std::vector<std::vector<cell>> fieldV = field.getfieldV();
+		//std::cout << "start1" << std::endl;
+		for (int i = 0; i < fieldV.size(); i++)
+		{
+			for (int j = 0; j < fieldV[i].size(); j++)
+			{
+				short int numberOfLivingNeighbors = numberOfLivingCellsAround(i, j, this->field);
+				if (fieldV[i][j].live == true)
+				{
+					if (numberOfLivingNeighbors < 2 || numberOfLivingNeighbors > 3)
+					{
+						fieldV[i][j].live = false;
+					}
+				}
+				else
+				{
+					if (numberOfLivingNeighbors == 3)
+					{
+						fieldV[i][j].live = true;
+					}
+				}
+			}
+		}
+		//std::cout << "end1" << std::endl;
+		field.setfieldV(fieldV);
+	}
 
 	int start() {
 
@@ -45,7 +107,7 @@ public:
 
 
 			header.blit();
-			tempBg.blit();
+			//tempBg.blit();
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 
@@ -67,6 +129,11 @@ public:
 						menu.blit();
 						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 						}
+						if (this->cursor_Y > 70)
+						{
+							point pxPosition = { this->cursor_X, this->cursor_Y };
+							field.playerChanges(pxPosition);
+						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
 					{
@@ -76,6 +143,11 @@ public:
 							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
+							
+							//std::cout << "start1" << std::endl;
+							field.blitField();
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+							//std::cout << "start2" << std::endl;
 							this->menuFlag = gameSettings::menuSetting.close;
 							break;
 						case menu.btnsEnum::loadBtn:
@@ -101,7 +173,7 @@ public:
 						case menu.btnsEnum::quitBtn:
 							std::cout << "Menu::buttons::quit\n";
 							header.blit();
-							tempBg.blit();
+							//tempBg.blit();
 
 							///temp
 							//this->menuFlag = gameSettings::menuSetting.close;
@@ -133,6 +205,9 @@ public:
 							this->menuFlag = gameSettings::menuSetting.close;
 							settingWin.applyHardness();
 							///blitGameFieldAndOther =PASS=
+							restart();
+							field.blitField();
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 							break;
 						case settingWin.btnsEnum::cancel:
 							std::cout << "setting::buttons::cancel\n";
@@ -172,13 +247,23 @@ public:
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
 					header.blit();
-					tempBg.blit();
+					//tempBg.blit();
+					if (gLoop >= 120)
+					{
+						this->oneTickAction();
+						gLoop = 0;
+					}
+					field.blitField();
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 				}
+				else
+				{
+					gLoop = 0;
+				}
 				
 				
-
+				gLoop++;
 
 
 				SDL_Delay(1000 / 60);
