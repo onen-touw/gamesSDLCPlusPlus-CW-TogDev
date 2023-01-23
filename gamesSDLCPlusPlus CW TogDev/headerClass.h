@@ -31,7 +31,6 @@ public:
 	void blit() {
 		this->blitBg();
 		this->blitBtns();
-		SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 	}
 
 

@@ -42,8 +42,13 @@ public:
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			tempBgAllClass tempBg = tempBgAllClass(img.loadOneImg("./image/menu/mainBg.png"));
+
+
 			header.blit();
 			tempBg.blit();
+			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
+
 			while (SDL_PollEvent(&event) || this->game)
 			{
 				if (event.type == SDL_QUIT)
@@ -99,8 +104,8 @@ public:
 							tempBg.blit();
 
 							///temp
-							this->menuFlag = gameSettings::menuSetting.close;
-							//return 0;
+							//this->menuFlag = gameSettings::menuSetting.close;
+							return 0;
 							break;
 						
 						default:
@@ -168,6 +173,7 @@ public:
 				{
 					header.blit();
 					tempBg.blit();
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 				}
 				
