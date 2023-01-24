@@ -25,7 +25,7 @@ private:
 	int cursor_X = 0, cursor_Y = 0;
 
 	bool game = true;
-	bool tempMenuStop = false;
+	bool pause = true;
 
 	int menuFlag = gameSettings::menuSetting.close;
 
@@ -34,14 +34,10 @@ public:
 	void restart()
 	{
 		this->field = fieldClass();
-		field.getfieldV()[1][0].live = true;
-		field.getfieldV()[1][1].live = true;
-		field.getfieldV()[1][2].live = true;
-		field.getfieldV()[0][2].live = true;
 	}
 	short int numberOfLivingCellsAround(short int i, short int j, fieldClass field)
 	{
-		//std::cout << "start1" << std::endl;
+
 		short int counter = 0;
 		if (i > 0)
 		{
@@ -57,8 +53,7 @@ public:
 		}
 		if (j > 0) { if (field.getfieldV()[i][j - 1].live == true) { counter++; } }
 		if (j < gameSettings::winSetting.winW / field.getCellSize() - 1) { if (field.getfieldV()[i][j + 1].live == true) { counter++; } }
-		//std::cout << "end1" << std::endl;
-		//std::cout << i << " " << j << " " << counter << std::endl;
+
 		return counter;
 	}
 
@@ -107,6 +102,8 @@ public:
 
 
 			header.blit();
+			field.blitField();
+
 			//tempBg.blit();
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
@@ -124,15 +121,35 @@ public:
 
 					if (this->menuFlag == gameSettings::menuSetting.close)
 					{
-						if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.openMenu)
+						if (this->cursor_Y > gameSettings::winSetting.header)
 						{
-						menu.blit();
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+							if (this->pause)
+							{
+								point pxPosition = { this->cursor_X, this->cursor_Y };
+								field.playerChanges(pxPosition);
+								field.blitField();
+								SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+							};
 						}
-						if (this->cursor_Y > 70)
+						else
 						{
-							point pxPosition = { this->cursor_X, this->cursor_Y };
-							field.playerChanges(pxPosition);
+							switch (header.checkButtonClick(this->cursor_X, this->cursor_Y))
+							{
+								case header.btnsEnum::openMenu:
+									menu.blit();
+									this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+									this->pause = true;
+									break;
+								case header.btnsEnum::play:
+									this->pause = false;
+									break;
+								case header.btnsEnum::pause:
+									this->pause = true;
+									break;
+
+							default:
+								break;
+							}
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
@@ -140,18 +157,15 @@ public:
 
 						switch (menu.checkButtonClick(this->cursor_X, this->cursor_Y)) {
 						case menu.btnsEnum::playBtn:
-							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
-							///start game or other =PASS=
-							
-							//std::cout << "start1" << std::endl;
+							header.blit();
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-							//std::cout << "start2" << std::endl;
 							this->menuFlag = gameSettings::menuSetting.close;
 							break;
 						case menu.btnsEnum::loadBtn:
 							std::cout << "Menu::buttons::load\n";
+							this->menuFlag = gameSettings::menuSetting.load;
 							///=PASS=
 							break;
 						case menu.btnsEnum::settingBtn:
@@ -159,11 +173,9 @@ public:
 							this->menuFlag = gameSettings::menuSetting.setting;
 							settingWin.blit();
 							break;
-						case menu.btnsEnum::statistic:
-							std::cout << "Menu::buttons::statistic\n";
-							this->menuFlag = gameSettings::menuSetting.statistic;
-							statisticWin.loadStatistic();
-							statisticWin.blit();
+						case menu.btnsEnum::save:
+							std::cout << "Menu::buttons::save\n";
+							this->menuFlag = gameSettings::menuSetting.save;
 							break;
 						case menu.btnsEnum::aboutGame:
 							this->menuFlag = gameSettings::menuSetting.about;
@@ -204,8 +216,8 @@ public:
 							std::cout << "setting::buttons::apply\n";
 							this->menuFlag = gameSettings::menuSetting.close;
 							settingWin.applyHardness();
-							///blitGameFieldAndOther =PASS=
 							restart();
+							header.blit();
 							field.blitField();
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 							break;
@@ -231,14 +243,23 @@ public:
 							menu.blit();
 						}
 					}
-					else if (this->menuFlag == gameSettings::menuSetting.statistic)
+					else if (this->menuFlag == gameSettings::menuSetting.load)
 					{
-						if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
-						{
-							std::cout << "statisticWin::buttons::cancel\n";
-							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-							menu.blit();
-						}
+						///=PASS=
+
+						///TEMP
+						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						menu.blit();
+						///TEMP
+					}
+					else if (this->menuFlag == gameSettings::menuSetting.save)
+					{
+						///=PASS=
+
+						///TEMP
+						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						menu.blit();
+						///TEMP
 					}
 				}
 
@@ -246,25 +267,17 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
-					header.blit();
-					//tempBg.blit();
-					if (gLoop >= 120)
+					if (!this->pause)
 					{
+				
 						this->oneTickAction();
-						gLoop = 0;
+						//gLoop = 0;
+						field.blitField();
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
 					}
-					field.blitField();
-					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 				}
-				else
-				{
-					gLoop = 0;
-				}
-				
-				
-				gLoop++;
-
 
 				SDL_Delay(1000 / 60);
 			}
