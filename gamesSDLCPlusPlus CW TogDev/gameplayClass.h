@@ -41,7 +41,7 @@ public:
 	{
 		SDL_FreeSurface(this->bgBtnImg);
 		SDL_FreeSurface(this->bgMenuImg);
-		//TTF_CloseFont(this->fontT);
+		//TTF_CloseFont(this->fontT);	////????
 	}
 
 	void restart()
