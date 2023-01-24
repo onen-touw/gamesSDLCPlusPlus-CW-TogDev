@@ -6,10 +6,8 @@
 #include"menuClass.h"
 #include"settingWinClass.h"
 #include"aboutWinClass.h"
-#include"statisticWinClass.h"
 #include"headerClass.h"
 
-#include"tempBgAllClass.h"
 
 #include "imageClass.h"
 #include"fontClass.h"
@@ -23,6 +21,11 @@ private:
 	baseGameClass base;
 	fieldClass field;
 	saveClass save;
+
+	TTF_Font* fontT;
+	SDL_Surface* bgMenuImg = nullptr;
+	SDL_Surface* bgBtnImg = nullptr;
+
 	
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -33,6 +36,14 @@ private:
 
 	short int gLoop = 0;
 public:
+
+	~gameplayClass()
+	{
+		SDL_FreeSurface(this->bgBtnImg);
+		SDL_FreeSurface(this->bgMenuImg);
+		//TTF_CloseFont(this->fontT);	////????
+	}
+
 	void restart()
 	{
 		this->field = fieldClass();
@@ -94,13 +105,15 @@ public:
 		{
 			SDL_Event event;
 			fontClass font; imageClass img;
-			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"),img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			settingWinClass settingWin = settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), img.loadOneImg("./image/menu/switchTemp.png"), font.getFont());
-			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
-			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			tempBgAllClass tempBg = tempBgAllClass(img.loadOneImg("./image/menu/mainBg.png"));
+			this->fontT = font.getFont();
+			this->bgMenuImg = img.loadOneImg("./image/menu/mainBg.png");
+			this->bgBtnImg = img.loadOneImg("./image/menu/mainBg.png");
+
+			menuClass menu = menuClass(this->bgMenuImg, this->bgBtnImg, this->fontT);
+			settingWinClass settingWin = settingWinClass(this->bgMenuImg, this->bgBtnImg, img.loadOneImg("./image/menu/switchTemp.png"), this->fontT);
+			aboutWinClass aboutWin = aboutWinClass(this->bgMenuImg, this->bgBtnImg, this->fontT);
+			headerClass header = headerClass(this->bgMenuImg, this->bgBtnImg, this->fontT);
 
 
 			header.blit();

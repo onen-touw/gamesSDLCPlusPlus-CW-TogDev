@@ -158,8 +158,6 @@ SDL2_ttf.lib</AdditionalDependencies>
     <ClCompile Include="saveClass.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingWinClass.cpp" />
-    <ClCompile Include="statisticWinClass.cpp" />
-    <ClCompile Include="tempBgAllClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aboutWinClass.h" />
@@ -174,8 +172,6 @@ SDL2_ttf.lib</AdditionalDependencies>
     <ClInclude Include="saveClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="settingWinClass.h" />
-    <ClInclude Include="statisticWinClass.h" />
-    <ClInclude Include="tempBgAllClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="font\courier.ttf" />
