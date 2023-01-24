@@ -2,6 +2,7 @@
 
 #include "baseGameClass.h"
 
+#include"saveClass.h"
 #include"menuClass.h"
 #include"settingWinClass.h"
 #include"aboutWinClass.h"
@@ -21,6 +22,7 @@ class gameplayClass
 private:
 	baseGameClass base;
 	fieldClass field;
+	saveClass save;
 	
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -110,6 +112,19 @@ public:
 
 			while (SDL_PollEvent(&event) || this->game)
 			{
+				if (this->menuFlag == gameSettings::menuSetting.close)
+				{
+					if (!this->pause)
+					{
+				
+						this->oneTickAction();
+						//gLoop = 0;
+						field.blitField();
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
+					}
+
+				}
 				if (event.type == SDL_QUIT)
 				{
 					this->game = false;
@@ -166,7 +181,8 @@ public:
 						case menu.btnsEnum::loadBtn:
 							std::cout << "Menu::buttons::load\n";
 							this->menuFlag = gameSettings::menuSetting.load;
-							///=PASS=
+							field.setfieldV(save.getSave());
+							field.blitField();
 							break;
 						case menu.btnsEnum::settingBtn:
 							std::cout << "Menu::buttons::settings\n";
@@ -176,6 +192,7 @@ public:
 						case menu.btnsEnum::save:
 							std::cout << "Menu::buttons::save\n";
 							this->menuFlag = gameSettings::menuSetting.save;
+							save.setSave(field.getfieldV(), gameSettings::fieldSetting.hardness);
 							break;
 						case menu.btnsEnum::aboutGame:
 							this->menuFlag = gameSettings::menuSetting.about;
@@ -265,19 +282,6 @@ public:
 
 
 
-				if (this->menuFlag == gameSettings::menuSetting.close)
-				{
-					if (!this->pause)
-					{
-				
-						this->oneTickAction();
-						//gLoop = 0;
-						field.blitField();
-						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
-					}
-
-				}
 
 				SDL_Delay(1000 / 60);
 			}
