@@ -60,12 +60,11 @@ public:
 	}
 
 	///notUsed
-	void blitBg(SDL_Surface* img, SDL_Rect objRect) {
-		std::cout << this->objRect.x << " " << this->objRect.w << "\n";
+	void _blit(SDL_Surface* img, SDL_Rect objRect) {
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect );
 	}
 
-	//notUsed
+	///notUsed
 	void blitWithTxt(const char* text, SDL_Color color = {0,0,0}) {
 		if (this->bgImg == nullptr)
 		{

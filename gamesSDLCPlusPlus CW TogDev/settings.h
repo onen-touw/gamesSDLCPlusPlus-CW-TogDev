@@ -30,10 +30,12 @@ struct menuSettings
 };
 struct winSettings
 {
-	const short header = 70;
-	const short winH = 600;
-	const short winW = 600;
-	const short winTopBorder = 31;
+	const short	cellSize = 35;							///px
+	const short	countOfCells = 21;
+	const short headerHeight = 70;						///px
+	const short winW = cellSize * countOfCells;			///px
+	const short winH = winW + headerHeight;				///px
+	const short winTopBorder = 31;						///px 
 
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
@@ -59,27 +61,31 @@ struct point
 struct cell
 {
 	point pxPosition = { 0,0 };
-	bool live = false;
+	int objType = 1;
+	int objLive = 3;	///for walls only
 };
 
 struct fieldSettings
 {
-	enum hardnessEn
+	enum hardnessEnum
 	{
 		easy,normal,hard,
 	};
-	short hardness = hardnessEn::easy;
-	enum images
-	{
-		cellDead,
-		cellLive,
+	short hardness = hardnessEnum::easy;
+	const short objEndurance = 3;
+	const short maxWallLenth = 5;
+	const short minWallLenth = 3;
 
-		TOTAL
-	};
-	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
-	};
+
+
+	///fireImg, bombImg,
+
+};
+
+struct character
+{
+	short HP = 3;
+	short CD = 3;
 
 };
 

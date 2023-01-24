@@ -1,15 +1,11 @@
-//#include""
 #include "gameplayClass.h"
 
 int main(int argc, char* argv[]) {
 
-	///TEST TEST TEST TEST 
 	gameplayClass gpC;
 
-	gpC.start();
-	//settlmentActionsClass settlment;
+	gpC.mainLoop();
 
-	//settlment.start();
 
 	return 0;
 }

@@ -14,7 +14,7 @@ private:
 	std::vector< btnsStruct>btnsV = {
 		{"лемч", {20, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
-	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.header };
+	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.headerHeight };
 
 	
 public:

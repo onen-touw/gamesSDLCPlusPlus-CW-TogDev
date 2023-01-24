@@ -8,16 +8,15 @@
 #include"statisticWinClass.h"
 #include"headerClass.h"
 
-#include"tempBgAllClass.h"
-
+#include"fieldClass.h"
 #include "imageClass.h"
 #include"fontClass.h"
 
 
-class gameplayClass
+class gameplayClass : public baseGameClass
 {
 private:
-	baseGameClass base;
+	//baseGameClass base;
 	
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -26,12 +25,12 @@ private:
 
 	int menuFlag = gameSettings::menuSetting.close;
 
-
 public:
 
-	int start() {
+	int mainLoop() {
+		
 
-		if (this->base.initModuls())
+		if (this->initModuls())
 		{
 			SDL_Event event;
 			fontClass font; imageClass img;
@@ -41,11 +40,15 @@ public:
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			tempBgAllClass tempBg = tempBgAllClass(img.loadOneImg("./image/menu/mainBg.png"));
 
+			fieldClass field;
+			field.generateFieldMatrix();
 
+			field.randowWalls();
+			field.DEBUG();
+			field.blitField();
 			header.blit();
-			tempBg.blit();
+			
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 
@@ -101,8 +104,6 @@ public:
 						case menu.btnsEnum::quitBtn:
 							std::cout << "Menu::buttons::quit\n";
 							header.blit();
-							tempBg.blit();
-
 							///temp
 							//this->menuFlag = gameSettings::menuSetting.close;
 							return 0;
@@ -172,7 +173,6 @@ public:
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
 					header.blit();
-					tempBg.blit();
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 				}
@@ -186,7 +186,10 @@ public:
 
 
 		}
-
+		else
+		{
+			return 1;	///Error initialization
+		}
 
 		return 0;
 	}
