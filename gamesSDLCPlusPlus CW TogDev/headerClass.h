@@ -5,14 +5,19 @@
 class headerClass : public interfaceObjects
 {
 
-
+public:
+	  enum btnsEnum
+	  {
+		  openMenu,
+		  play,
+		  pause
+	  };
 	
-public:const short openMenu = 0;
 private:
-	//short positionStartX = gameSettings::winSetting.winW / 2 - gameSettings::menuSetting.btnW / 2;
-	//short positionStartY = 50;
-	std::vector< btnsStruct>btnsV = {
+	std::vector<btnsStruct>btnsV = {
 		{"Ã≈Õﬁ", {20, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"—“¿–“", {20+ gameSettings::menuSetting.btnW*2, 20, gameSettings::menuSetting.btnW/2, gameSettings::menuSetting.btnH}},
+		{"œ¿”«¿", {20+ gameSettings::menuSetting.btnW * 3, 20, gameSettings::menuSetting.btnW/2, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.header };
 

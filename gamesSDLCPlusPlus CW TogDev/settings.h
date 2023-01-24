@@ -24,7 +24,7 @@ struct menuSettings
 		mainMenuWindow,
 		load,
 		setting,
-		statistic,
+		save,
 		about
 	};
 };
