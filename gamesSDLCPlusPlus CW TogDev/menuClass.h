@@ -9,7 +9,7 @@ public:/*const*/ enum btnsEnum
 		playBtn,
 		loadBtn,
 		settingBtn,
-		statistic,
+		save,
 		aboutGame,
 		quitBtn,
 	};

@@ -138,6 +138,7 @@ public:
 								case header.btnsEnum::openMenu:
 									menu.blit();
 									this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+									this->pause = true;
 									break;
 								case header.btnsEnum::play:
 									this->pause = false;
@@ -164,6 +165,7 @@ public:
 							break;
 						case menu.btnsEnum::loadBtn:
 							std::cout << "Menu::buttons::load\n";
+							this->menuFlag = gameSettings::menuSetting.load;
 							///=PASS=
 							break;
 						case menu.btnsEnum::settingBtn:
@@ -171,8 +173,8 @@ public:
 							this->menuFlag = gameSettings::menuSetting.setting;
 							settingWin.blit();
 							break;
-						case menu.btnsEnum::statistic:
-							std::cout << "Menu::buttons::statistic\n";
+						case menu.btnsEnum::save:
+							std::cout << "Menu::buttons::save\n";
 							this->menuFlag = gameSettings::menuSetting.save;
 							break;
 						case menu.btnsEnum::aboutGame:
@@ -244,15 +246,20 @@ public:
 					else if (this->menuFlag == gameSettings::menuSetting.load)
 					{
 						///=PASS=
+
+						///TEMP
+						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						menu.blit();
+						///TEMP
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.save)
 					{
-						if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
-						{
-							std::cout << "statisticWin::buttons::cancel\n";
-							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-							menu.blit();
-						}
+						///=PASS=
+
+						///TEMP
+						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						menu.blit();
+						///TEMP
 					}
 				}
 
@@ -262,27 +269,15 @@ public:
 				{
 					if (!this->pause)
 					{
-						//header.blit();
-					
-						/*if (++gLoop >= 10)
-						{*/
-							this->oneTickAction();
-							//gLoop = 0;
-							field.blitField();
-							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+				
+						this->oneTickAction();
+						//gLoop = 0;
+						field.blitField();
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
-						//}
 					}
 
 				}
-				/*else
-				{
-					gLoop = 0;
-				}*/
-				
-				
-		
-
 
 				SDL_Delay(1000 / 60);
 			}
