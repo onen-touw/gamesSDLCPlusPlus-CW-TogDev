@@ -15,7 +15,7 @@ private:
 
 public:
     midSectionClass(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect rect) :interfaceObjects(bgImg, font, rect) {
-        this->loadImages(gameSettings::objectsFC.objectsImgPath);
+        this->loadImages(gameSettings::objectsFC.objParam);
         for (int i = 0; i < ObjectID::TOTAL; i++)
         {
             this->imgRects.push_back({ rect.x, rect.y + this->containerTextH + this->imageH*i , rect.w, this->imageH });

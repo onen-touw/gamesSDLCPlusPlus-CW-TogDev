@@ -105,6 +105,16 @@ public:
 
 	SDL_Rect getRect() { return this->objRect; }
 
+	void blitTxt(const char* text, SDL_Rect rect, SDL_Color color = { 0,0,0 }) {
+		SDL_Surface* tempSurf = TTF_RenderText_Solid(this->font, text, color);
+		if (this->font == nullptr)
+		{
+			std::cout << "error\n";
+		}
+		SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &rect);
+		SDL_FreeSurface(tempSurf);
+	}
+
 	void blitOnlyTextCenter( const char* text, SDL_Rect containerRect, SDL_Color color = { 0,0,0 }) {
 		SDL_Surface* tempSurf = TTF_RenderText_Blended_Wrapped(this->font, text, color, containerRect.w);
 		SDL_Rect tempRect = { containerRect.x+btnTextPading + (containerRect.w - tempSurf->w) / 2,containerRect.y + (containerRect.h - tempSurf->h) / 2,0,0 };

@@ -65,10 +65,10 @@ public:
 				gameSettings::winSetting.winH - gameSettings::winSetting.header 
 				});
 
-			for (int i = 0; i < 2; i++)
-			{
-				sections[i]->blit();
-			}
+			
+			
+			sections[0]->blit();
+			sections[1]->blit();
 			this->midSection->blit();
 			header.blit();
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
@@ -89,8 +89,18 @@ public:
 					{
 						if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.openMenu)
 						{
-						menu.blit();
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+							menu.blit();
+							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						}
+						else if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.reset)
+						{
+							this-> pictChose = false;
+							this->pictRight = 0;
+							this->pictLeft = 0;
+							sections[0]->blit();
+							sections[1]->blit();
+							this->midSection->blit();
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
@@ -156,22 +166,21 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
-					for (int i = 0; i < 2; i++)
-					{
-						sections[i]->blit();
-					}
+					sections[0]->blit();
+					sections[1]->blit();
 					this->midSection->blit();
 					
 					if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONDOWN) {
 						SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
 						if (!this->pictChose && this->pictLeft+this->pictRight<2)
 						{
+							std::cout << "yeahboy\n";
 							this->tempImg = this->midSection->choseImgByClick(this->cursor_X, this->cursor_Y);
 							if (this->tempImg)
 							{
 								this->pictChose = true;
 							}
-						}
+						}else std::cout << "nayboy\n";
 					}
 					else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEMOTION)
 					{
@@ -179,7 +188,7 @@ public:
 						{
 							this->cursor_X = event.motion.x;
 							this->cursor_Y = event.motion.y;
-							std::cout << "yeahboy\n";
+							
 							this->transmitImg(this->tempImg, this->cursor_X, this->cursor_Y);
 						}
 						SDL_UpdateWindowSurface(gameSettings::winSetting.win);						
@@ -209,7 +218,23 @@ public:
 							}
 						}
 					}
-					
+					if (this->pictLeft || this->pictRight)
+					{
+
+						if (this->pictLeft)
+						{
+							this->sections[0]->blitPict();
+						}
+						if (this->pictRight)
+						{
+							this->sections[1]->blitPict();
+						}
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					}
+					else if (this->pictLeft || this->pictRight == 2)
+					{
+						//header.blitCompairResult();
+					}
 				}
 				
 				

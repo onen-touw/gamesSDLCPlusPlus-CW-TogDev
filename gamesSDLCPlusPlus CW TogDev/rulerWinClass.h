@@ -10,6 +10,8 @@ private:
     SDL_Rect rectForChosenPict = {};
     int containerTextH = 100;
     int imageH = 200;
+    SDL_Surface* pict = nullptr;
+    short objLenth = 0;
 
 public:
     rulerWinClass(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect rect) :interfaceObjects(bgImg, font, rect) {
@@ -30,7 +32,11 @@ public:
     }
 
     void setPictureToCompaire(SDL_Surface* img) {
-        this->blitBg(img, this->rectForChosenPict);
+        this->pict = img;
+    }
+
+    void blitPict() {
+        this->blitBg(this->pict, this->rectForChosenPict);
     }
 }; 
 

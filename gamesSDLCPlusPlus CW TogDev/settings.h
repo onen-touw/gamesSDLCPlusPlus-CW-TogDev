@@ -2,6 +2,7 @@
 
 #include<vector>
 #include<iostream>
+#include<string>
 #include<SDL.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
@@ -43,10 +44,11 @@ struct winSettings
 
 
 
-struct imagePath
+struct objParams
 {
 	std::string path;
 	short int position;
+	short lenth;
 };
 
 
@@ -63,18 +65,18 @@ enum ObjectID {
 
 	TOTAL
 };
-struct objCompParam
-{
-	SDL_Surface* img = nullptr;
-	short lenth = 0;
-	unsigned short id = 0;
-};
+//struct objCompParam
+//{
+//	SDL_Surface* img = nullptr;
+//	short lenth = 0;
+//	unsigned short id = 0;
+//};
 
 struct objectsForCompair {
-	std::vector<imagePath>objectsImgPath = {
-		{"./image/objects/cat.png", cat},
-		{"./image/objects/python.png", python},
-		{"./image/objects/cow.png" , cow},
+	std::vector<objParams>objParam = {
+		{"./image/objects/cat.png", cat, 5},
+		{"./image/objects/python.png", python,20},
+		{"./image/objects/cow.png" , cow, 99},
 	};
 };
 
