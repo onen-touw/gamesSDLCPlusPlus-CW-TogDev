@@ -2,6 +2,8 @@
 
 #include"imageClass.h"
 #include"interfaceObjects.h"
+#include"veaponClass.h"
+#include"fieldClass.h"
 
 class characterClass : public imageClass, public interfaceObjects 
 {
@@ -9,10 +11,17 @@ private:
 
 	int lastDirection = _direction::down;
 	std::vector<SDL_Surface*>characterImg;
+
+	SDL_Surface* fireImg = nullptr;
+	SDL_Surface* bombImg = nullptr;
+
 	short characterImgSize = 0;
 	int charactI = 0;
 	int charactJ = 0;
 	SDL_Rect chRect = { 0,0,0,0 };
+
+	veaponClass* bomb = nullptr;
+	bool caboom = false;
 
 public:
 	characterClass() {
@@ -23,6 +32,9 @@ public:
 		this->characterImg[_direction::right] = this->loadOneImg("./image/character/right.png");
 		this->characterImgSize = gameSettings::winSetting.cellSize;
 		this->chRect = { this->charactI,this->charactJ + gameSettings::winSetting.headerHeight, this->characterImgSize,this->characterImgSize };
+
+		this->bombImg = this->loadOneImg("./image/character/bomb.png");
+		this->fireImg = this->loadOneImg("./image/character/fire.png");
 	}
 
 
@@ -87,6 +99,27 @@ public:
 
 		default:
 			break;
+		}
+	}
+
+	void setBomb() {
+		std::cout << "bombSet::constructor\n";
+		if (!this->caboom)
+		{
+			this->bomb = new veaponClass(this->fireImg, this->bombImg, this->charactI, this->charactJ);
+			this->caboom = true;
+			std::cout << "bombSet::constructor\n";
+		}
+	}
+	void bombChecking(std::vector<std::vector<cell>>& V, fieldClass*F) {
+		if (this->caboom)
+		{
+			if (this->bomb->CABOOOOOM(V)) {
+				std::cout << "caboomEnd\n";
+				delete this->bomb;
+				F->blitField();
+				this->caboom = false;
+			}
 		}
 	}
 

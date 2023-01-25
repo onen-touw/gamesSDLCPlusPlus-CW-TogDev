@@ -74,7 +74,7 @@ enum Object
 {
 	Empty,		/// == nothing
 	Wall,
-
+	bomb,
 	BrockenWall,
 	WeekWall,
 };

@@ -188,6 +188,7 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
+
 					if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
 					{
 						this->field->blitOneCell(this->character->getPosition());
@@ -212,6 +213,13 @@ public:
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::left, this->field->getFiledVectorLink());
 					}
+					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+					{
+						this->character->setBomb();
+					}
+
+					this->character->bombChecking(this->field->getFiledVectorLink(), this->field);
+
 
 				}
 				

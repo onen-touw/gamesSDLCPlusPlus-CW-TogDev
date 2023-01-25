@@ -180,11 +180,11 @@ public:
                         this->fieldV[i][j].pxPosition.p2, this->cellSize, this->cellSize, });
                     break;
                 case Object::Wall:
-                    if (this->fieldV[i][j].objLive == this->wallEndueance)
-                    {
+                    /*if (this->fieldV[i][j].objLive == this->wallEndueance)
+                    {*/
                         this->_blit(this->imageVector[Object::Wall], { this->fieldV[i][j].pxPosition.p1,
                             this->fieldV[i][j].pxPosition.p2, this->cellSize, this->cellSize, });
-                    }
+                    /*}
                     else if(this->fieldV[i][j].objLive < this->wallEndueance && this->fieldV[i][j].objLive> 0)
                     {
                         this->_blit(this->imageVector[Object::WeekWall], { this->fieldV[i][j].pxPosition.p1,
@@ -194,9 +194,13 @@ public:
                     {
                         this->_blit(this->imageVector[Object::BrockenWall], { this->fieldV[i][j].pxPosition.p1,
                           this->fieldV[i][j].pxPosition.p2, this->cellSize, this->cellSize, });
-                    }
+                    }*/
                     break;
+                case Object::bomb:
 
+                    break;
+                case Object::BrockenWall:
+                    break;
                 default:
                     break;
                 }
