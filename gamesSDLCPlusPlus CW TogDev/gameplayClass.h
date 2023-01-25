@@ -7,6 +7,8 @@
 #include"aboutWinClass.h"
 #include"statisticWinClass.h"
 #include"headerClass.h"
+#include"characterClass.h"
+
 
 #include"fieldClass.h"
 #include "imageClass.h"
@@ -18,6 +20,9 @@ class gameplayClass : public baseGameClass
 private:
 	//baseGameClass base;
 	
+	characterClass* character = nullptr;
+	fieldClass* field = nullptr;
+
 	int cursor_X = 0, cursor_Y = 0;
 
 	bool game = true;
@@ -26,6 +31,16 @@ private:
 	int menuFlag = gameSettings::menuSetting.close;
 
 public:
+	gameplayClass() {
+		this->character = new characterClass();
+		this->field = new fieldClass();
+	}
+
+
+	~gameplayClass()
+	{
+
+	}
 
 	int mainLoop() {
 		
@@ -41,12 +56,12 @@ public:
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
-			fieldClass field;
-			field.generateFieldMatrix();
+			//fieldClass field;
+			this->field->generateFieldMatrix();
 
-			field.randowWalls();
-			field.DEBUG();
-			field.blitField();
+			this->field->randowWalls();
+			this->field->DEBUG();
+			this->field->blitField();
 			header.blit();
 			
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);

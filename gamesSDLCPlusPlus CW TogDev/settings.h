@@ -65,6 +65,20 @@ struct cell
 	int objLive = 3;	///for walls only
 };
 
+
+enum _direction
+{
+	up, right, down, left, TOTAL
+}; 
+enum Object
+{
+	Empty,		/// == nothing
+	Wall,
+
+	BrockenWall,
+	WeekWall,
+};
+
 struct fieldSettings
 {
 	enum hardnessEnum
