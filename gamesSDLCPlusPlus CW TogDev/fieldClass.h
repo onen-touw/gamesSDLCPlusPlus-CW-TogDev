@@ -150,6 +150,24 @@ public:
 
     }
 
+    void blitOneCell(point p) {
+        if (this->fieldV[p.p1][p.p2].objType == Object::Empty)
+        {
+            this->_blit(this->imageVector[Object::Empty], { this->fieldV[p.p1][p.p2].pxPosition.p1,
+                        this->fieldV[p.p1][p.p2].pxPosition.p2, this->cellSize, this->cellSize, });
+        }
+        else if (this->fieldV[p.p1][p.p2].objType == Object::Wall)
+        {
+            this->_blit(this->imageVector[Object::Wall], { this->fieldV[p.p1][p.p2].pxPosition.p1,
+                            this->fieldV[p.p1][p.p2].pxPosition.p2, this->cellSize, this->cellSize, });
+        }
+        else/*(this->fieldV[p.p1][p.p2].objType == Object::BrockenWall)*/
+        {
+            this->_blit(this->imageVector[Object::BrockenWall], { this->fieldV[p.p1][p.p2].pxPosition.p1,
+                          this->fieldV[p.p1][p.p2].pxPosition.p2, this->cellSize, this->cellSize, });
+        }
+    }
+
     void blitField() {
         for (int i = 0; i < this->fH; i++)
         {
