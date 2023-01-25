@@ -5,17 +5,32 @@ class rulerWinClass :
 {
 public: const short openMenu = 0;
 private:
-    SDL_Rect RectRight = { 0, gameSettings::winSetting.header , gameSettings::winSetting.winW/3, gameSettings::winSetting.winH };
-    SDL_Rect RectLeft = { gameSettings::winSetting.winW - gameSettings::winSetting.winW / 3, gameSettings::winSetting.header , gameSettings::winSetting.winW, gameSettings::winSetting.winH };
+   
+    std::string text1 = "Перетащите картинку сюда";
+    SDL_Rect rectForChosenPict = {};
+    int containerTextH = 100;
+    int imageH = 200;
+
 public:
-    rulerWinClass(SDL_Surface* bgImg) :interfaceObjects(bgImg) {}
+    rulerWinClass(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect rect) :interfaceObjects(bgImg, font, rect) {
+        this->rectForChosenPict = { rect.x + rect.w / 2 - this->imageH/2, (gameSettings::winSetting.winH - containerTextH - gameSettings::winSetting.header) / 2,
+            this->imageH,this->imageH };
+    }
     ~rulerWinClass()
     {
-
+        this->text1.clear();
     }
     void blit()
     {
         this->blitBg();
+        SDL_Rect containerTxtRect = this->objRect;
+        containerTxtRect.y = gameSettings::winSetting.header;
+        containerTxtRect.h = this->containerTextH;
+        this->blitOnlyTextCenter(this->text1.c_str(), containerTxtRect);
     }
-};
+
+    void setPictureToCompaire(SDL_Surface* img) {
+        this->blitBg(img, this->rectForChosenPict);
+    }
+}; 
 

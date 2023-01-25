@@ -4,5 +4,6 @@ namespace gameSettings {
 
 	winSettings winSetting;
 	menuSettings menuSetting;
-	fieldSettings fieldSetting;
+	//fieldSettings fieldSetting;
+	objectsForCompair objectsFC;
 }

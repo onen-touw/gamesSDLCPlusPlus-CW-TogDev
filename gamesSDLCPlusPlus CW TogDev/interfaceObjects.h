@@ -38,6 +38,13 @@ public:
 		this->bgImg = bgImg;
 	}
 
+
+	interfaceObjects(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect objRect = { 0,0,0,0 }) {
+		this->bgImg = bgImg;
+		this->objRect = objRect;
+		this->font = font;
+	}
+
 	~interfaceObjects()
 	{
 		this->btns.clear();
@@ -61,7 +68,6 @@ public:
 
 	///notUsed
 	void blitBg(SDL_Surface* img, SDL_Rect objRect) {
-		std::cout << this->objRect.x << " " << this->objRect.w << "\n";
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect );
 	}
 
@@ -98,6 +104,17 @@ public:
 	}*/
 
 	SDL_Rect getRect() { return this->objRect; }
+
+	void blitOnlyTextCenter( const char* text, SDL_Rect containerRect, SDL_Color color = { 0,0,0 }) {
+		SDL_Surface* tempSurf = TTF_RenderText_Blended_Wrapped(this->font, text, color, containerRect.w);
+		SDL_Rect tempRect = { containerRect.x+btnTextPading + (containerRect.w - tempSurf->w) / 2,containerRect.y + (containerRect.h - tempSurf->h) / 2,0,0 };
+		if (this->font == nullptr)
+		{
+			std::cout << "error\n";
+		}
+		SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+		SDL_FreeSurface(tempSurf);
+	}
 
 	void blitWithTextCenter(SDL_Surface* img, const char* text, SDL_Rect objRect, SDL_Color color = { 0,0,0 }){
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect);
