@@ -15,7 +15,6 @@ private:
 		{"лемч", {20, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.header };
-
 	
 public:
 	headerClass(SDL_Surface* bgImg, SDL_Surface* btnImg, TTF_Font* font) :
