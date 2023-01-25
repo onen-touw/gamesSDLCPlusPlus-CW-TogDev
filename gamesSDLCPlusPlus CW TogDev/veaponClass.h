@@ -12,7 +12,7 @@ private:
 	SDL_Surface* bombImg = nullptr;
 
 	int bombWaiting = 2000;	/// 2c
-	int fireTime = 2000;
+	int fireTime = 1500;
 	Uint32 setTime = 0;
 
 	bool cabom = false;

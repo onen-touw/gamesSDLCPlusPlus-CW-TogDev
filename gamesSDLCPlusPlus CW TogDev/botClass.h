@@ -1,7 +1,6 @@
 #pragma once
 
-#include"interfaceObjects.h"
-#include"imageClass.h"
+#include"settings.h"
 
 class botClass
 {
@@ -33,10 +32,7 @@ public:
 	{
 		botOldPosition = pos;
 	}
-	void blit()
-	{
 
-	}
 
 };
 

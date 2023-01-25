@@ -8,6 +8,7 @@
 #include"statisticWinClass.h"
 #include"headerClass.h"
 #include"characterClass.h"
+#include"botsClass.h"
 
 
 #include"fieldClass.h"
@@ -22,6 +23,7 @@ private:
 	
 	characterClass* character = nullptr;
 	fieldClass* field = nullptr;
+	botsClass* bots = nullptr;
 
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -34,6 +36,7 @@ public:
 	gameplayClass() {
 		this->character = new characterClass();
 		this->field = new fieldClass();
+		this->bots = new botsClass();
 	}
 
 
@@ -59,6 +62,12 @@ public:
 			this->field->randowWalls();
 			this->field->DEBUG();
 			this->field->blitField();
+
+			for (int i = 0; i < 3; i++)
+			{
+				this->bots->spawnBot(this->field->getPositionForBot());
+			}
+			this->bots->blitBots(this->field->getFiledVectorLink());
 			this->character->characterBlit();
 			header.blit();
 			
@@ -216,6 +225,11 @@ public:
 					}
 
 					this->character->bombChecking(this->field->getFiledVectorLink(), this->field);
+					this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+					this->bots->blitBots(this->field->getFiledVectorLink());
+					this->character->characterBlit();
+
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 
 				}

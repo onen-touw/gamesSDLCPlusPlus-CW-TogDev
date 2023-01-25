@@ -43,6 +43,21 @@ public:
 
 	std::vector<std::vector<cell>>&getFiledVectorLink() { return this->fieldV; }
 
+
+    point getPositionForBot() {
+        srand(time(0));
+        int i = 0, j = 0;
+        do
+        {
+            i = rand() % (this->fieldV.size() - 2) + 1;
+            j = rand() % this->fieldV[0].size() - 1;
+
+        } while (this->fieldV[i][j].objType!= Object::Empty);
+        this->fieldV[i][j].objType = Object::bot;
+        return { i,j };
+
+    }
+
     void generateFieldMatrix() {
         fieldV.resize(this->fH);
         for (int k = 0; k < this->fH; k++)
