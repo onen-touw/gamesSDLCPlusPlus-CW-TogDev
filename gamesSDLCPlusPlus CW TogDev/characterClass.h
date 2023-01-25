@@ -51,6 +51,7 @@ public:
 					this->charactI--;
 					this->chRect.y = this->charactI * this->characterImgSize + gameSettings::winSetting.headerHeight;
 					this->_blit(characterImg[_direction::up], this->chRect);
+					this->lastDirection = _direction::up;
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 				}
 			}
@@ -64,6 +65,7 @@ public:
 					this->charactJ--;
 					this->chRect.x = this->charactJ * this->characterImgSize;
 					this->_blit(characterImg[_direction::left], this->chRect);
+					this->lastDirection = _direction::left;
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 				}
 			}
@@ -77,6 +79,7 @@ public:
 					this->charactI++;
 					this->chRect.y = this->charactI * this->characterImgSize + gameSettings::winSetting.headerHeight;
 					this->_blit(characterImg[_direction::down], this->chRect);
+					this->lastDirection = _direction::down;
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 				}
 			}
@@ -91,12 +94,11 @@ public:
 					this->charactJ++;
 					this->chRect.x = this->charactJ * this->characterImgSize;
 					this->_blit(characterImg[_direction::right], this->chRect);
+					this->lastDirection = _direction::right;
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 				}
 			}
 			break;
-
-
 		default:
 			break;
 		}

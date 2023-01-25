@@ -1,12 +1,29 @@
 #pragma once
 #include"botClass.h"
+#include"imageClass.h"
 
-class botsClass:public botClass
+class botsClass/*:public botClass*/: public imageClass
 {
 private:
 	std::vector<botClass> bots;
 	std::vector<std::pair<point, short int>> way;
+
+	SDL_Surface* botImg = nullptr;
+	short cellSize = 0;
+	short headerH = 0;
+
 public:
+	botsClass() {
+		this->botImg = this->loadOneImg("./image/bot/ghost.png");
+		this->cellSize = gameSettings::winSetting.cellSize;
+		this->headerH = gameSettings::winSetting.headerHeight;
+	}
+	~botsClass()
+	{
+		this->bots.clear();
+		this->way.clear();
+	}
+
 	void killBots(point boomPosition)
 	{
 		for (int i = 0; i < bots.size(); i++)
@@ -63,13 +80,7 @@ public:
 		botClass bot = botClass(botPosition);
 		bots.push_back(bot);
 	}
-	void blitBots()
-	{
-		for (int i = 0; i < bots.size(); i++)
-		{
-			bots[i].blit();
-		}
-	}
+
 	std::vector<point> checkCell(std::vector<std::vector<std::pair<cell, bool>>> field, point characterPosition)
 	{
 		std::vector<point> temp;
@@ -189,7 +200,7 @@ public:
 		{
 			if(bot.getPosition().p1 > 0)
 			{
-					if (field[bot.getPosition().p1 - 1][bot.getPosition().p2].objType == Object::Empty || field[bot.getPosition().p1 - 1][bot.getPosition().p2].objType == Object::BrockenWall)
+					if (field[bot.getPosition().p1 - 1ll][bot.getPosition().p2].objType == Object::Empty || field[bot.getPosition().p1 - 1][bot.getPosition().p2].objType == Object::BrockenWall)
 					{
 						point pos = { bot.getPosition().p1 - 1, bot.getPosition().p2 };
 						bot.setPosition(pos);
@@ -229,12 +240,31 @@ public:
 			}
 		}
 	}
-	void updateBots(botClass bot, std::vector<std::vector<cell>>& field)
+	void updateBots(std::vector<std::vector<cell>>& field, point charPos)
 	{
+		this->findWay(field, charPos);
+
 		for (int i = 0; i < bots.size(); i++)
 		{
 			setBotPosition(bots[i], field);
+			std::cout << bots[i].getPosition().p1 << " " << bots[i].getPosition().p2 << " botPOs\n";
 		}
 	}
+
+	void blitBots(std::vector<std::vector<cell>>V) {
+		SDL_Rect mr = { 0,0, this->cellSize,this->cellSize };
+		for (int i = 0; i < this->bots.size(); i++)
+		{
+
+			V[this->bots[i].getOldPosition().p1][this->bots[i].getOldPosition().p2].objType = Object::Empty;
+			
+
+			mr = { this->bots[i].getPosition().p2 * this->cellSize, this->bots[i].getPosition().p1*this->cellSize + headerH,this->cellSize,this->cellSize };
+			SDL_BlitScaled(this->botImg, NULL, gameSettings::winSetting.surface, &mr);
+		}
+
+
+	}
+
 };
 
