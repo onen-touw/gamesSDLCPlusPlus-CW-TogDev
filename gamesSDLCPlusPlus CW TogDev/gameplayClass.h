@@ -29,6 +29,7 @@ private:
 
 	bool game = true;
 	bool tempMenuStop = false;
+	short int gloop = 0;
 
 	int menuFlag = gameSettings::menuSetting.close;
 
@@ -38,11 +39,37 @@ public:
 		this->field = new fieldClass();
 		this->bots = new botsClass();
 	}
-
-
 	~gameplayClass()
 	{
+		
+	}
 
+	void restart()
+	{
+		delete this->character;
+		delete this->field;
+		delete this->bots;
+		this->character = new characterClass();
+		this->field = new fieldClass();
+		this->bots = new botsClass();
+		this->game = true;
+		this->tempMenuStop = false;
+		this->gloop = 0;
+
+		this->menuFlag = gameSettings::menuSetting.close;
+
+
+		this->field->generateFieldMatrix();
+		this->field->randowWalls();
+		this->field->DEBUG();
+		this->field->blitField();
+
+		for (int i = 0; i < 5; i++)
+		{
+			this->bots->spawnBot(this->field->getPositionForBot());
+		}
+		this->bots->blitBots(this->field->getFiledVectorLink());
+		this->character->characterBlit();
 	}
 
 	int mainLoop() 
@@ -101,6 +128,8 @@ public:
 							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
+							restart();
+							header.blit();
 							this->menuFlag = gameSettings::menuSetting.close;
 							break;
 						case menu.btnsEnum::loadBtn:
@@ -132,7 +161,7 @@ public:
 							break;
 						
 						default:
-							break;
+break;
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.setting)
@@ -155,6 +184,7 @@ public:
 							std::cout << "setting::buttons::apply\n";
 							this->menuFlag = gameSettings::menuSetting.close;
 							settingWin.applyHardness();
+							header.blit();
 							///blitGameFieldAndOther =PASS=
 							break;
 						case settingWin.btnsEnum::cancel:
@@ -197,37 +227,54 @@ public:
 					{
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::down, this->field->getFiledVectorLink());
-						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+						//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT)
 					{
 						std::cout << "keydown::RIGHT\n";
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::right, this->field->getFiledVectorLink());
-						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+						//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
 					{
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::up, this->field->getFiledVectorLink());
-						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+						//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT)
 					{
 
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::left, this->field->getFiledVectorLink());
-						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+						//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
 					{
 						this->character->setBomb();
 					}
-
-					this->character->bombChecking(this->field->getFiledVectorLink(), this->field);
-					this->bots->killBots(this->character->getBombPos());
-					//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+					
+					if (gloop >= gameSettings::fieldSetting.botsSpeed)
+					{
+						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+						gloop = 0;
+					}
+					gloop++;
 					this->field->blitField();
+					if (this->character->bombChecking(this->field->getFiledVectorLink(), this->field) == 1)
+					{
+						this->bots->killBots(this->character->getBombPos());
+						if (this->character->characterDeadBomb())
+						{
+							restart();
+							header.blit();
+						}
+					}
+					if (this->bots->killCharacter(this->character->getPosition()))
+					{
+						restart();
+						header.blit();
+					}
 					this->bots->blitBots(this->field->getFiledVectorLink());
 					this->character->characterBlit();
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);

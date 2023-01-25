@@ -75,6 +75,38 @@ public:
 			}
 		}
 	}
+	bool killCharacter(point charpos)
+	{
+		for (int i = 0; i < bots.size(); i++)
+		{
+			if (bots[i].getPosition().p1 == charpos.p1 && bots[i].getPosition().p2 == charpos.p2)
+			{
+				bots.erase(bots.begin() + i);
+				return true;
+			}
+			else if (bots[i].getPosition().p1 == charpos.p1 + 1 && bots[i].getPosition().p2 == charpos.p2)
+			{
+				bots.erase(bots.begin() + i);
+				return true;
+			}
+			else if (bots[i].getPosition().p1 == charpos.p1 - 1 && bots[i].getPosition().p2 == charpos.p2)
+			{
+				bots.erase(bots.begin() + i);
+				return true;
+			}
+			else if (bots[i].getPosition().p1 == charpos.p1 && bots[i].getPosition().p2 == charpos.p2 + 1)
+			{
+				bots.erase(bots.begin() + i);
+				return true;
+			}
+			else if (bots[i].getPosition().p1 == charpos.p1 && bots[i].getPosition().p2 == charpos.p2 - 1)
+			{
+				bots.erase(bots.begin() + i);
+				return true;
+			}
+		}
+		return false;
+	}
 	void spawnBot(point botPosition)
 	{
 		botClass bot = botClass(botPosition);

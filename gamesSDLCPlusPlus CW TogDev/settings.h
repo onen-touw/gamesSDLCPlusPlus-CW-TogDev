@@ -84,13 +84,13 @@ struct fieldSettings
 {
 	enum hardnessEnum
 	{
-		easy,normal,hard,
+		easy = 1,normal,hard,
 	};
 	short hardness = hardnessEnum::easy;
 	const short objEndurance = 3;
 	const short maxWallLenth = 5;
 	const short minWallLenth = 3;
-
+	short botsSpeed = 30 / hardness;
 
 
 	///fireImg, bombImg,

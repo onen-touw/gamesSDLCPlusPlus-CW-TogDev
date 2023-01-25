@@ -18,7 +18,7 @@ private:
 	short characterImgSize = 0;
 	int charactI = 0;
 	int charactJ = 0;
-	point bombPos = { 0,0 };
+	point bombPos = { -100500,-100500 };
 	SDL_Rect chRect = { 0,0,0,0 };
 
 	veaponClass* bomb = nullptr;
@@ -116,20 +116,75 @@ public:
 		}
 	}
 	point getBombPos() { return this->bombPos; }
-	void bombChecking(std::vector<std::vector<cell>>& V, fieldClass*F) {
+	short int bombChecking(std::vector<std::vector<cell>>& V, fieldClass*F) {
 		if (this->caboom)
 		{
-			if (this->bomb->CABOOOOOM(V)) {
+			short int type = this->bomb->CABOOOOOM(V);
+			if (type == 2) 
+			{
 				std::cout << "caboomEnd\n";
+				this->bomb->setCabom();
 				delete this->bomb;
+				this->bombPos = { -100500, -100500 };
 				F->blitField();
 				this->caboom = false;
 			}
+			else if( type == 1 )
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
+		return 0;
 	}
 
 	point getPosition() { return { this->charactI,this->charactJ }; }
-
+	bool characterDeadBomb()
+	{
+		if (this->charactI == this->bombPos.p1 && this->charactJ == this->bombPos.p2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 + 1 && this->charactJ == this->bombPos.p2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 + 2 && this->charactJ == this->bombPos.p2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 && this->charactJ == this->bombPos.p2 + 1)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 && this->charactJ == this->bombPos.p2 + 2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 - 1 && this->charactJ == this->bombPos.p2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 - 2 && this->charactJ == this->bombPos.p2)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 && this->charactJ == this->bombPos.p2 - 1)
+		{
+			return true;
+		}
+		else if (this->charactI == this->bombPos.p1 && this->charactJ == this->bombPos.p2 - 2)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	void characterBlit() {
 		this->_blit(this->characterImg[this->lastDirection], this->chRect);
 	}

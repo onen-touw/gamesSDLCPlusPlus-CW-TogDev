@@ -15,7 +15,7 @@ private:
 	int fireTime = 1500;
 	Uint32 setTime = 0;
 
-	bool cabom = false;
+	short int cabom = 0;
 
 	SDL_Rect bombRect = { 0,0,0,0 };
 	short cellSize = 0;
@@ -35,14 +35,17 @@ public:
 		/*SDL_FreeSurface(this->fireImg);
 		SDL_FreeSurface(this->bombImg);*/
 	}
-
-	point getBombPos() { return{ i, j }; }
-	bool CABOOOOOM(std::vector<std::vector<cell>>& V) {				/// return true when bomb is "died"
-		if (!this->cabom)
+	void setCabom()
+	{
+		this->cabom = 0;
+	}
+	point getBombPos(){return{i, j}; }
+	short int CABOOOOOM(std::vector<std::vector<cell>>& V) {				/// return true when bomb is "died"
+		if (this->cabom != 1) //TODO: еном добавить
 		{
 			if (SDL_GetTicks() - this->setTime >= this->bombWaiting)
 			{
-				this->cabom = true;
+				this->cabom = 1;
 				this->setTime = SDL_GetTicks();
 				V[i][j].objType = Object::bomb;
 			}
@@ -54,7 +57,6 @@ public:
 
 			if (SDL_GetTicks() - this->setTime <= this->fireTime)
 			{
-
 				SDL_BlitScaled(this->fireImg, NULL, gameSettings::winSetting.surface, &this->bombRect);
 				//this->_blit(this->fireImg, this->bombRect);
 				if (this->i + 1ll < V.size())
@@ -144,17 +146,15 @@ public:
 					SDL_BlitScaled(this->fireImg, NULL, gameSettings::winSetting.surface, &this->bombRect);
 					this->bombRect.x = (this->j) * this->cellSize;
 				}
-
-
 			}
 			else
 			{
-
-				return true;
+				this->cabom = 2;
+				return this->cabom;
 			}
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 		}
-		return false;
+		return this->cabom;
 	}
 
 };
