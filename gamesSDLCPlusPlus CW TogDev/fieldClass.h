@@ -11,8 +11,6 @@ private:
 	std::vector<std::vector<cell>>fieldV;
     int fH = 0, fW = 0, cellSize = 0,
         wallEndueance = 0;
-  
-   
     
     std::vector<imagePath>fieldImagesPathVector = {
         {"./image/fieldImages/hardWall.png", Object::Empty},
