@@ -81,50 +81,50 @@ public:
 		bots.push_back(bot);
 	}
 
-	std::vector<point> checkCell(std::vector<std::vector<std::pair<cell, bool>>> field, point characterPosition)
+	std::vector<point> checkCell(std::vector<std::vector<std::pair<cell, bool>>> field, point pos)
 	{
 		std::vector<point> temp;
-		if (characterPosition.p1 > 0)
+		if (pos.p1 > 0)
 		{
-			if (field[characterPosition.p1 - 1][characterPosition.p2].second == false)
+			if (field[pos.p1 - 1][pos.p2].second == false)
 			{
-				if (field[characterPosition.p1 - 1][characterPosition.p2].first.objType == Object::Empty || field[characterPosition.p1 - 1][characterPosition.p2].first.objType == Object::BrockenWall)
+				if (field[pos.p1 - 1][pos.p2].first.objType == Object::Empty || field[pos.p1 - 1][pos.p2].first.objType == Object::BrockenWall || field[pos.p1 - 1][pos.p2].first.objType == Object::bot)
 				{
-					point pos = { characterPosition.p1 - 1, characterPosition.p2 };
-					temp.push_back(pos);
+					point tempPos = { pos.p1 - 1, pos.p2 };
+					temp.push_back(tempPos);
 				}
 			}
 		}
-		if (characterPosition.p1 < field.size() - 1)
+		if (pos.p1 < field.size() - 1)
 		{
-			if (field[characterPosition.p1 + 1][characterPosition.p2].second == false)
+			if (field[pos.p1 + 1][pos.p2].second == false)
 			{
-				if (field[characterPosition.p1 + 1][characterPosition.p2].first.objType == Object::Empty || field[characterPosition.p1 + 1][characterPosition.p2].first.objType == Object::BrockenWall)
+				if (field[pos.p1 + 1][pos.p2].first.objType == Object::Empty || field[pos.p1 + 1][pos.p2].first.objType == Object::BrockenWall || field[pos.p1 + 1][pos.p2].first.objType == Object::bot)
 				{
-					point pos = { characterPosition.p1 + 1, characterPosition.p2 };
-					temp.push_back(pos);
+					point tempPos = { pos.p1 + 1, pos.p2 };
+					temp.push_back(tempPos);
 				}
 			}
 		}
-		if (characterPosition.p2 > 0) 
+		if (pos.p2 > 0)
 		{
-			if (field[characterPosition.p1][characterPosition.p2 - 1].second == false)
+			if (field[pos.p1][pos.p2 - 1].second == false)
 			{
-				if (field[characterPosition.p1][characterPosition.p2 - 1].first.objType == Object::Empty || field[characterPosition.p1][characterPosition.p2 - 1].first.objType == Object::BrockenWall)
+				if (field[pos.p1][pos.p2 - 1].first.objType == Object::Empty || field[pos.p1][pos.p2 - 1].first.objType == Object::BrockenWall || field[pos.p1][pos.p2 - 1].first.objType == Object::bot)
 				{
-					point pos = { characterPosition.p1, characterPosition.p2 - 1 };
-					temp.push_back(pos);
+					point tempPos = { pos.p1, pos.p2 - 1 };
+					temp.push_back(tempPos);
 				}
 			}
 		}
-		if (characterPosition.p2 < field[0].size() - 1) 
+		if (pos.p2 < field[0].size() - 1)
 		{
-			if (field[characterPosition.p1][characterPosition.p2 + 1].second == false)
+			if (field[pos.p1][pos.p2 + 1].second == false)
 			{
-				if (field[characterPosition.p1][characterPosition.p2 + 1].first.objType == Object::Empty || field[characterPosition.p1][characterPosition.p2 + 1].first.objType == Object::BrockenWall)
+				if (field[pos.p1][pos.p2 + 1].first.objType == Object::Empty || field[pos.p1][pos.p2 + 1].first.objType == Object::BrockenWall || field[pos.p1][pos.p2 + 1].first.objType == Object::bot)
 				{
-					point pos = { characterPosition.p1, characterPosition.p2 + 1 };
-					temp.push_back(pos);
+					point tempPos = { pos.p1, pos.p2 + 1 };
+					temp.push_back(tempPos);
 				}
 			}
 		}
@@ -148,7 +148,7 @@ public:
 			field.push_back(tempField);
 			tempField.clear();
 		}
-		way.clear();
+		this->way.clear();
 		std::vector<std::pair<point, short int>> nextCheck;
 		std::vector<std::pair<point, short int>> nowCheck;
 		field[characterPosition.p1][characterPosition.p2].second = true;
@@ -168,7 +168,7 @@ public:
 				for (int j = 0; j < temp.size(); j++)
 				{
 					nextCheck.push_back({ temp[j], this->way.size() });
-					field[temp[i].p1][temp[i].p2].second = true;
+					field[temp[j].p1][temp[j].p2].second = true;
 					this->way.push_back({ temp[j], nowCheck[i].second });
 				}
 				temp.clear();
@@ -180,16 +180,21 @@ public:
 			}
 			nextCheck.clear();
 		}
+		field.clear();
 	}
-	void setBotPosition(botClass bot, std::vector<std::vector<cell>>& field)
+	void setBotPosition(botClass& bot, std::vector<std::vector<cell>>& field)
 	{
 		bool find = false;
+		//std::cout << bot.getPosition().p1 << " " << bot.getPosition().p2 << " botPOs\n";
 		field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::Empty;
 		bot.setOldPosition(bot.getPosition());
 		for (int i = 0; i < this->way.size(); i++)
 		{
+
 			if (bot.getPosition().p1 == this->way[i].first.p1 && bot.getPosition().p2 == this->way[i].first.p2)
 			{
+				std::cout << bot.getPosition().p1 << " " << bot.getPosition().p2 << " botPOs\n";
+
 				find = true;
 				bot.setPosition(this->way[this->way[i].second].first);
 				field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
@@ -242,16 +247,17 @@ public:
 	}
 	void updateBots(std::vector<std::vector<cell>>& field, point charPos)
 	{
+		std::cout << "hui" << std::endl;
 		this->findWay(field, charPos);
-
+		std::cout << this->way.size() << std::endl;
 		for (int i = 0; i < bots.size(); i++)
 		{
 			setBotPosition(bots[i], field);
-			std::cout << bots[i].getPosition().p1 << " " << bots[i].getPosition().p2 << " botPOs\n";
+			//std::cout << bots[i].getPosition().p1 << " " << bots[i].getPosition().p2 << " botPOs\n";
 		}
 	}
 
-	void blitBots(std::vector<std::vector<cell>>V) {
+	void blitBots(std::vector<std::vector<cell>>& V) {
 		SDL_Rect mr = { 0,0, this->cellSize,this->cellSize };
 		for (int i = 0; i < this->bots.size(); i++)
 		{

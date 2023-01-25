@@ -50,7 +50,7 @@ public:
         do
         {
             i = rand() % (this->fieldV.size() - 2) + 1;
-            j = rand() % this->fieldV[0].size() - 1;
+            j = rand() % (this->fieldV[0].size() - 1);
 
         } while (this->fieldV[i][j].objType!= Object::Empty);
         this->fieldV[i][j].objType = Object::bot;

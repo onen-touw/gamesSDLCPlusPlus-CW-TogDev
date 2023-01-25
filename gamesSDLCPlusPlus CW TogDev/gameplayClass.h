@@ -63,7 +63,7 @@ public:
 			this->field->DEBUG();
 			this->field->blitField();
 
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				this->bots->spawnBot(this->field->getPositionForBot());
 			}
@@ -190,8 +190,6 @@ public:
 					}
 				}
 
-
-
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
 
@@ -199,25 +197,27 @@ public:
 					{
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::down, this->field->getFiledVectorLink());
+						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT)
 					{
 						std::cout << "keydown::RIGHT\n";
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::right, this->field->getFiledVectorLink());
-
+						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
 					{
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::up, this->field->getFiledVectorLink());
-
+						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT)
 					{
 
 						this->field->blitOneCell(this->character->getPosition());
 						this->character->transmit(_direction::left, this->field->getFiledVectorLink());
+						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 					}
 					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
 					{
@@ -225,10 +225,11 @@ public:
 					}
 
 					this->character->bombChecking(this->field->getFiledVectorLink(), this->field);
-					this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+					this->bots->killBots(this->character->getBombPos());
+					//this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
+					this->field->blitField();
 					this->bots->blitBots(this->field->getFiledVectorLink());
 					this->character->characterBlit();
-
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 

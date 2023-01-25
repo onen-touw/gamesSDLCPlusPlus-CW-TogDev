@@ -18,6 +18,7 @@ private:
 	short characterImgSize = 0;
 	int charactI = 0;
 	int charactJ = 0;
+	point bombPos = { 0,0 };
 	SDL_Rect chRect = { 0,0,0,0 };
 
 	veaponClass* bomb = nullptr;
@@ -110,9 +111,11 @@ public:
 		{
 			this->bomb = new veaponClass(this->fireImg, this->bombImg, this->charactI, this->charactJ);
 			this->caboom = true;
+			this->bombPos = { this->charactI, this->charactJ };
 			std::cout << "bombSet::constructor\n";
 		}
 	}
+	point getBombPos() { return this->bombPos; }
 	void bombChecking(std::vector<std::vector<cell>>& V, fieldClass*F) {
 		if (this->caboom)
 		{

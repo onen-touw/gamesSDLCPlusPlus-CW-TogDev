@@ -36,7 +36,7 @@ public:
 		SDL_FreeSurface(this->bombImg);*/
 	}
 
-
+	point getBombPos() { return{ i, j }; }
 	bool CABOOOOOM(std::vector<std::vector<cell>>& V) {				/// return true when bomb is "died"
 		if (!this->cabom)
 		{
