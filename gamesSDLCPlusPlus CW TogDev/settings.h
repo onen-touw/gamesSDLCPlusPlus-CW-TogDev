@@ -53,8 +53,8 @@ struct imagePath
 
 struct point
 {
-	short p1 = 0;
-	short p2 = 0;
+	int p1 = 0;
+	int p2 = 0;
 };
 
 
@@ -74,7 +74,7 @@ enum Object
 {
 	Empty,		/// == nothing
 	Wall,
-
+	bomb,
 	BrockenWall,
 	WeekWall,
 };

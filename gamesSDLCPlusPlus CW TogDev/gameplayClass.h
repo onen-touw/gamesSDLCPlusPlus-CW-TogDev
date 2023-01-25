@@ -62,6 +62,7 @@ public:
 			this->field->randowWalls();
 			this->field->DEBUG();
 			this->field->blitField();
+			this->character->characterBlit();
 			header.blit();
 			
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
@@ -187,8 +188,38 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
-					header.blit();
-					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
+					if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
+					{
+						this->field->blitOneCell(this->character->getPosition());
+						this->character->transmit(_direction::down, this->field->getFiledVectorLink());
+					}
+					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RIGHT)
+					{
+						std::cout << "keydown::RIGHT\n";
+						this->field->blitOneCell(this->character->getPosition());
+						this->character->transmit(_direction::right, this->field->getFiledVectorLink());
+
+					}
+					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
+					{
+						this->field->blitOneCell(this->character->getPosition());
+						this->character->transmit(_direction::up, this->field->getFiledVectorLink());
+
+					}
+					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_LEFT)
+					{
+
+						this->field->blitOneCell(this->character->getPosition());
+						this->character->transmit(_direction::left, this->field->getFiledVectorLink());
+					}
+					else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+					{
+						this->character->setBomb();
+					}
+
+					this->character->bombChecking(this->field->getFiledVectorLink(), this->field);
+
 
 				}
 				
