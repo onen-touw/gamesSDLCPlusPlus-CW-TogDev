@@ -9,14 +9,13 @@ protected:
 	point botPosition = { 0, 0 };
 	point botOldPosition = { 0, 0 };
 public:
-	botClass() {
-
-	}
-
-	~botClass()
+	botClass(point botPosition) 
 	{
-
+		this->botPosition = botPosition;
+		this->botOldPosition = botPosition;
 	}
+
+	~botClass(){}
 
 	point getPosition()
 	{
@@ -33,6 +32,10 @@ public:
 	void setOldPosition(point pos)
 	{
 		botOldPosition = pos;
+	}
+	void blit()
+	{
+
 	}
 
 };
