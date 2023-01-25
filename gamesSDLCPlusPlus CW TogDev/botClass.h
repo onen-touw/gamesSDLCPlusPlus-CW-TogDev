@@ -5,9 +5,9 @@
 
 class botClass
 {
-private:
+protected:
 	point botPosition = { 0, 0 };
-	point nextPosition = { 0, 0 };
+	point botOldPosition = { 0, 0 };
 public:
 	botClass() {
 
@@ -18,15 +18,21 @@ public:
 
 	}
 
-	bool checkCell(std::vector<std::vector<cell>> field, point position)
+	point getPosition()
 	{
-		//if(field[position.p1][position.p2].objType == )
+		return botPosition;
 	}
-
-	void calculateNewBotPosition(std::vector<std::vector<cell>> field, point characterPosition)
+	point getOldPosition()
 	{
-		std::vector<std::pair<point, point>> reviewQueue;
-		reviewQueue;
+		return botOldPosition;
+	}
+	void setPosition(point pos)
+	{
+		botPosition = pos;
+	}
+	void setOldPosition(point pos)
+	{
+		botOldPosition = pos;
 	}
 
 };
