@@ -6,11 +6,41 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 
+
+///nessesary for menu work
+///========================================================================================
 struct btnsStruct
 {
 	std::string btnText = "";
 	SDL_Rect rect = { 0,0,0,0 };
 };
+struct menuSettings
+{
+	//short padding5 = 5;	///px
+	short btnH=45, btnW = 150;
+	enum menuState
+	{
+		close,
+		mainMenuWindow,
+		load,
+		setting,
+		statistic,
+		about
+	};
+};
+struct winSettings
+{
+	const short header = 70;
+	const short winH = 670;
+	const short winW = 600;
+	const short winTopBorder = 31;
+
+	SDL_Window* win = nullptr;
+	SDL_Surface* surface = nullptr;
+};
+///========================================================================================
+
+
 
 struct imagePath
 {
@@ -18,28 +48,13 @@ struct imagePath
 	short int position;
 };
 
-struct menuSettings
-{
-	//short padding5 = 5;	///px
-	short btnH=45, btnW = 150;
-};
 
 struct point
 {
-	short p1 = 0;
-	short p2 = 0;
+	short int p1 = 0;
+	short int p2 = 0;
 };
 
-struct winSettings
-{
-	const short header = 70;
-	const short winH = 600;
-	const short winW = 600;
-	const short winTopBorder = 31;
-
-	SDL_Window* win = nullptr;
-	SDL_Surface* surface = nullptr;
-};
 
 struct cell
 {
@@ -47,18 +62,34 @@ struct cell
 	bool live = false;
 };
 
-struct fieldStruct
+struct fieldSettings
 {
+	enum hardnessEn
+	{
+		easy,normal,hard,
+	};
+	short int easyModeNumberOfCells = 12;
+	short int normalModeNumberOfCells = 25;
+	short int hardModeNumberOfCells = 50;
+	short hardness = hardnessEn::easy;
 	enum images
 	{
-		cellDead,
-		cellLive,
+		cellDeadEasy,
+		cellLiveEasy,
+		cellDeadNormal,
+		cellLiveNormal,
+		cellDeadHard,
+		cellLiveHard,
 
 		TOTAL
 	};
 	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
+		{"./image/fieldImages/cellDeadEasy.png", images::cellDeadEasy},
+		{"./image/fieldImages/cellLiveEasy.png", images::cellLiveEasy},
+		{"./image/fieldImages/cellDeadNormal.png", images::cellDeadNormal},
+		{"./image/fieldImages/cellLiveNormal.png", images::cellLiveNormal},
+		{"./image/fieldImages/cellDeadHard.png", images::cellDeadHard},
+		{"./image/fieldImages/cellLiveHard.png", images::cellLiveHard}
 	};
 
 };
@@ -67,5 +98,6 @@ namespace gameSettings {
 
 	extern winSettings winSetting;
 	extern menuSettings menuSetting;
+	extern fieldSettings fieldSetting;
 }
 
