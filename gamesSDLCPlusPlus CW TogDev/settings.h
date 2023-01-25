@@ -75,6 +75,7 @@ enum Object
 	Empty,		/// == nothing
 	Wall,
 	bomb,
+	bot,
 	BrockenWall,
 	WeekWall,
 };

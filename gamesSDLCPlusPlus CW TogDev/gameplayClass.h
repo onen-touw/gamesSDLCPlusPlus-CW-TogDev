@@ -42,9 +42,8 @@ public:
 
 	}
 
-	int mainLoop() {
-		
-
+	int mainLoop() 
+	{
 		if (this->initModuls())
 		{
 			SDL_Event event;
@@ -53,12 +52,10 @@ public:
 			settingWinClass settingWin = settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), img.loadOneImg("./image/menu/switchTemp.png"), font.getFont());
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
 			//fieldClass field;
 			this->field->generateFieldMatrix();
-
 			this->field->randowWalls();
 			this->field->DEBUG();
 			this->field->blitField();

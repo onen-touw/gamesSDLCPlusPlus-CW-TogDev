@@ -119,7 +119,7 @@ public:
 		}
 		return temp;
 	}
-	void findWay(std::vector<std::vector<cell>> fieldV, point characterPosition)
+	void findWay(std::vector<std::vector<cell>>& fieldV, point characterPosition)
 	{
 		std::vector<std::vector<std::pair<cell, bool>>> field;
 		for (int i = 0; i < fieldV.size(); i++)
@@ -170,9 +170,10 @@ public:
 			nextCheck.clear();
 		}
 	}
-	void setBotPosition(botClass bot, std::vector<std::vector<cell>> field)
+	void setBotPosition(botClass bot, std::vector<std::vector<cell>>& field)
 	{
 		bool find = false;
+		field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::Empty;
 		bot.setOldPosition(bot.getPosition());
 		for (int i = 0; i < this->way.size(); i++)
 		{
@@ -180,6 +181,8 @@ public:
 			{
 				find = true;
 				bot.setPosition(this->way[this->way[i].second].first);
+				field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
+				return;
 			}
 		}
 		if (find == false)
@@ -190,6 +193,7 @@ public:
 					{
 						point pos = { bot.getPosition().p1 - 1, bot.getPosition().p2 };
 						bot.setPosition(pos);
+						field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
 						return;
 					}
 			}
@@ -199,6 +203,7 @@ public:
 					{
 						point pos = { bot.getPosition().p1 + 1, bot.getPosition().p2 };
 						bot.setPosition(pos);
+						field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
 						return;
 					}
 			}
@@ -208,6 +213,7 @@ public:
 					{
 						point pos = { bot.getPosition().p1, bot.getPosition().p2 - 1 };
 						bot.setPosition(pos);
+						field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
 						return;
 					}
 			}
@@ -217,12 +223,13 @@ public:
 					{
 						point pos = { bot.getPosition().p1, bot.getPosition().p2 + 1 };
 						bot.setPosition(pos);
+						field[bot.getPosition().p1][bot.getPosition().p2].objType = Object::bot;
 						return;
 					}
 			}
 		}
 	}
-	void updateBots(botClass bot, std::vector<std::vector<cell>> field)
+	void updateBots(botClass bot, std::vector<std::vector<cell>>& field)
 	{
 		for (int i = 0; i < bots.size(); i++)
 		{
