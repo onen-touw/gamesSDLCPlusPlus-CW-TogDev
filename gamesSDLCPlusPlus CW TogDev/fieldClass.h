@@ -3,6 +3,7 @@
 #include"interfaceObjects.h"
 #include"imageClass.h"
 
+
 class fieldClass : public interfaceObjects , public imageClass
 {
 private:
@@ -11,15 +12,7 @@ private:
     int fH = 0, fW = 0, cellSize = 0,
         wallEndueance = 0;
   
-    enum Object
-    {
-        Empty,		/// == nothing
-        Wall,
-
-        BrockenWall,
-        WeekWall,
-    };
-
+   
     
     std::vector<imagePath>fieldImagesPathVector = {
         {"./image/fieldImages/hardWall.png", Object::Empty},
@@ -46,6 +39,8 @@ public:
         this->wallEndueance = gameSettings::fieldSetting.objEndurance;
 
         this->loadImages(this->fieldImagesPathVector);
+
+        
     }
 
 	std::vector<std::vector<cell>>&getFiledVectorLink() { return this->fieldV; }
