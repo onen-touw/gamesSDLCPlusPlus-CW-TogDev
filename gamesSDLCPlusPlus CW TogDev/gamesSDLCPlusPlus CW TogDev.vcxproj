@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="aboutWinClass.cpp" />
     <ClCompile Include="baseGameClass.cpp" />
+    <ClCompile Include="botClass.cpp" />
     <ClCompile Include="characterClass.cpp" />
     <ClCompile Include="fieldClass.cpp" />
     <ClCompile Include="gameplayClass.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="aboutWinClass.h" />
     <ClInclude Include="baseGameClass.h" />
+    <ClInclude Include="botClass.h" />
     <ClInclude Include="characterClass.h" />
     <ClInclude Include="fieldClass.h" />
     <ClInclude Include="gameplayClass.h" />
