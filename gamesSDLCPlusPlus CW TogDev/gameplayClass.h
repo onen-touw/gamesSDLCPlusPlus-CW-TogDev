@@ -30,6 +30,8 @@ private:
 	bool game = true;
 	bool tempMenuStop = false;
 	short int gloop = 0;
+	short int botsNumber = 5;
+	short int botsKillCounter = 0;
 
 	int menuFlag = gameSettings::menuSetting.close;
 
@@ -64,7 +66,7 @@ public:
 		this->field->DEBUG();
 		this->field->blitField();
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < this->botsNumber; i++)
 		{
 			this->bots->spawnBot(this->field->getPositionForBot());
 		}
@@ -90,7 +92,7 @@ public:
 			this->field->DEBUG();
 			this->field->blitField();
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < this->botsNumber; i++)
 			{
 				this->bots->spawnBot(this->field->getPositionForBot());
 			}
@@ -144,7 +146,7 @@ public:
 						case menu.btnsEnum::statistic:
 							std::cout << "Menu::buttons::statistic\n";
 							this->menuFlag = gameSettings::menuSetting.statistic;
-							statisticWin.loadStatistic();
+							statisticWin.updateStatistic();
 							statisticWin.blit();
 							break;
 						case menu.btnsEnum::aboutGame:
@@ -184,6 +186,9 @@ break;
 							std::cout << "setting::buttons::apply\n";
 							this->menuFlag = gameSettings::menuSetting.close;
 							settingWin.applyHardness();
+							botsKillCounter = 0;
+							botsNumber = 5;
+							restart();
 							header.blit();
 							///blitGameFieldAndOther =PASS=
 							break;
@@ -254,7 +259,7 @@ break;
 						this->character->setBomb();
 					}
 					
-					if (gloop >= gameSettings::fieldSetting.botsSpeed)
+					if (gloop >= 30/(gameSettings::fieldSetting.hardness + 1))
 					{
 						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 						gloop = 0;
@@ -266,26 +271,32 @@ break;
 						this->bots->killBots(this->character->getBombPos());
 						if (this->character->characterDeadBomb())
 						{
+							botsKillCounter = 0;
+							botsNumber = 5;
+							restart();
+							header.blit();
+						}
+						if (this->bots->getBotsSize() == 0)
+						{
+							botsKillCounter ++;
+							this->botsNumber += 3;
+							statisticWin.setStat(botsKillCounter, gameSettings::fieldSetting.hardness);
+							statisticWin.updateStatistic();
 							restart();
 							header.blit();
 						}
 					}
 					if (this->bots->killCharacter(this->character->getPosition()))
 					{
+						botsKillCounter = 0;
+						botsNumber = 5;
 						restart();
 						header.blit();
 					}
 					this->bots->blitBots(this->field->getFiledVectorLink());
 					this->character->characterBlit();
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
-
 				}
-				
-				
-
-
-
 				SDL_Delay(1000 / 60);
 			}
 

@@ -23,7 +23,10 @@ public:
 		this->bots.clear();
 		this->way.clear();
 	}
-
+	short int getBotsSize()
+	{
+		return this->bots.size();
+	}
 	void killBots(point boomPosition)
 	{
 		for (int i = 0; i < bots.size(); i++)

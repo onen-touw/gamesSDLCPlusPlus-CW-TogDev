@@ -8,7 +8,7 @@ class settingWinClass : public interfaceObjects
 
 public: enum btnsEnum
 {
-	easy,
+	easy = 0,
 	normal,
 	hard,
 	apply,
@@ -48,6 +48,7 @@ public:
 
 	void changeHardness(int i) {
 		this->tempHardness = i;
+		gameSettings::fieldSetting.hardness = i;
 		this->blit();
 		SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 	}

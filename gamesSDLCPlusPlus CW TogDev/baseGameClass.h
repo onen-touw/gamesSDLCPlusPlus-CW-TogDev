@@ -31,7 +31,7 @@ public:
 			success = false;
 		}
 
-		gameSettings::winSetting.win = SDL_CreateWindow("GameLive", 0, gameSettings::winSetting.winTopBorder,
+		gameSettings::winSetting.win = SDL_CreateWindow("GameBomberMan", 0, gameSettings::winSetting.winTopBorder,
 			 gameSettings::winSetting.winW, gameSettings::winSetting.winH, SDL_WINDOW_SHOWN);
 
 		if (gameSettings::winSetting.win == nullptr) {
