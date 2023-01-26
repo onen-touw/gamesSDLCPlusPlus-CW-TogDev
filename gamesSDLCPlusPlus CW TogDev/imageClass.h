@@ -43,11 +43,14 @@ public:
 
 	~imageClass()
 	{
-		/*for (int i = 0; i < this->imageVector.size(); i++)
+		if (this->imageVector.size() > 0)
 		{
-			SDL_FreeSurface(this->imageVector[i]);
-		}*/
-		this->imageVector.clear();
+			for (int i = 0; i < this->imageVector.size(); i++)
+			{
+				SDL_FreeSurface(this->imageVector[i]);
+			}
+			this->imageVector.clear();
+		}
 	}
 
 	SDL_Surface* getImage(unsigned enumName) {
