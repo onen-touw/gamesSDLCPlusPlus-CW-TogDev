@@ -8,43 +8,31 @@ class baseGameClass
 private:
 
 
-	//short safePadingTop = 100;
-
 public:
 	baseGameClass() {
-		
-		//this->calculateWinParametrs();
 	}
-	~baseGameClass(){}
+	~baseGameClass(){
+	
+	}
 
-	//void calculateWinParametrs() {
-	//	gameSettings::fieldSetting.minCountCellInWin.height = 
-	//		int((GetSystemMetrics(SM_CYSCREEN) - this->safePadingTop - gameSettings::winObjSize.winTopBorder - 
-	//			gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
-	//	gameSettings::fieldSetting.minCountCellInWin.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
-	//	
-	//	this->winSize.width = gameSettings::fieldSetting.minCountCellInWin.width * gameSettings::winObjSize.cellSize;
-	//	this->winSize.height = gameSettings::fieldSetting.minCountCellInWin.height * gameSettings::winObjSize.cellSize + gameSettings::winObjSize.menuHeader;
-	//	std::cout << gameSettings::fieldSetting.minCountCellInWin.height << "x" <<
-	//		gameSettings::fieldSetting.minCountCellInWin.width << "\n" <<
-	//		this->winSize.height << "x" <<
-	//		this->winSize.width << "\n";
-	//}
 
 	
 
-	bool initModuls() {
+	void initModuls() {
 		bool success = true;
-
+		std::string error = "baseGameClass::initModuls::\n";
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		{
-			std::cout << "problem::SDL_Init\n" << SDL_GetError << "\n";
+			//std::cout << "problem::SDL_Init\n" << SDL_GetError << "\n";
+			error += "\tproblem::SDL_Init\n";
 			success = false;
 		}
 
 		int flags = IMG_INIT_PNG;
 		if (!(IMG_Init(flags) & flags)) {
 			std::cout << "Can't init image: " << IMG_GetError() << std::endl;
+			error += "\tproblem::IMGL_Init\n"; 
+
 			success = false;
 		}
 
@@ -53,22 +41,32 @@ public:
 
 		if (gameSettings::winSetting.win == nullptr) {
 			std::cout << "Can't create window: " << SDL_GetError() << std::endl;
+			error += "\tproblem::window creating\n";
+
 			success = false;
 		}
 		gameSettings::winSetting.surface = SDL_GetWindowSurface(gameSettings::winSetting.win);
 		if (gameSettings::winSetting.surface == nullptr)
 		{
-			std::cout << "problem::surface\n";
+			//std::cout << "problem::surface\n";
+			error += "\tproblem::surface creating\n";
+
 			success = false;
 		}
 
 		if (TTF_Init()!=0)
 		{
-			std::cout << "problem::ttfInit\n";
+			//std::cout << "problem::ttfInit\n";
+			error += "\tproblem::TTF_Init\n";
 			success = false;
 		}
-
-		return success;
+		if (!success)
+		{
+			std::cout << error << "\n";
+			system("pause");
+			exit(-1);
+		}
+		return;
 	}
 };
 

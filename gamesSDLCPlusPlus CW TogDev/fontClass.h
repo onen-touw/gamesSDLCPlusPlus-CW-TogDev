@@ -14,8 +14,9 @@ public:
 		if (this->font == nullptr)
 		{
 			std::cout << "ttf load font error\n";
+			system("pause");
+			exit(-3);
 		}
-		std::cout << "ttf load font\n";
 	}
 
 	TTF_Font* getFont() { return this->font; }

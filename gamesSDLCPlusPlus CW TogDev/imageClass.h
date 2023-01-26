@@ -8,22 +8,31 @@ protected:
 
 
 private:
-	void createImageVector(int size) {
+	void createImageVector(size_t size) {
 		imageVector.resize(size);
 	}
 
 	void load(std::string path, unsigned enumName) {
-
+		bool success = true;
 		SDL_Surface* flower = IMG_Load(path.c_str());
 		if (flower == nullptr) {
 			std::cout << "Can't load: " << IMG_GetError() << std::endl;
+			success = false;
 			return;
 		}
-		//flower = SDL_ConvertSurface(flower, gameSettings::surface->format, NULL);
-		/*if (flower == nullptr) {
+
+		/// optimization imgSurface for target surface
+		flower = SDL_ConvertSurface(flower, gameSettings::winSetting.surface->format, NULL);
+		if (flower == nullptr) {
 			std::cout << "Can't convert: " << SDL_GetError() << std::endl;
+			success = false;
 			return;
-		}*/
+		}
+		if (!success)
+		{
+			system("pause");
+			exit(-2);
+		}
 		imageVector[enumName] = flower;
 		return;
 	}
@@ -56,7 +65,8 @@ public:
 		SDL_Surface* flower = IMG_Load(path.c_str());
 		if (flower == nullptr) {
 			std::cout << "Can't load: " << IMG_GetError() << std::endl;
-			return nullptr;
+			system("pause");
+			exit(-2);
 		}
 		return flower;
 	}
