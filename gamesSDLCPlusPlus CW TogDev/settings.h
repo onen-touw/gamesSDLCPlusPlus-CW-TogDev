@@ -64,11 +64,6 @@ struct cell
 
 struct fieldSettings
 {
-	enum hardnessEn
-	{
-		easy,normal,hard,
-	};
-	short hardness = hardnessEn::easy;
 	enum images
 	{
 		cellDead,

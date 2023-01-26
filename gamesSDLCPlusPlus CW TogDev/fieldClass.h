@@ -23,6 +23,26 @@ public:
 		SDL_FreeSurface(this->borderImg);
 	}
 
+    void generateFieldMatrix() {
+       /* fieldV.resize(this->fH);
+        for (int k = 0; k < this->fH; k++)
+        {
+            fieldV[k].resize(this->fW);
+        }
+
+        short y = gameSettings::winSetting.headerHeight;
+        for (int i = 0; i < fieldV.size(); i++)
+        {
+            short x = 0;
+            for (int j = 0; j < fieldV[0].size(); j++)
+            {
+                fieldV[i][j].pxPosition = { x, y };
+                x += gameSettings::winSetting.cellSize;
+            }
+            y += gameSettings::winSetting.cellSize;
+        }*/
+    }
+
 
 };
 
