@@ -7,6 +7,8 @@
 #include"aboutWinClass.h"
 #include"statisticWinClass.h"
 #include"headerClass.h"
+#include"endGameWinClass.h"
+
 #include"characterClass.h"
 #include"botsClass.h"
 #include"saveClass.h"
@@ -86,14 +88,15 @@ public:
 		if (this->initModuls())
 		{
 			SDL_Event event;
-			fontClass font; imageClass img;
+			fontClass font; imageClass img; 
 			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"),img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			settingWinClass settingWin = settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), img.loadOneImg("./image/menu/switchTemp.png"), font.getFont());
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
+			endGameWinClass egw = endGameWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
-			//fieldClass field;
+
 			this->field->generateFieldMatrix();
 			this->field->randowWalls();
 			this->field->DEBUG();
@@ -125,8 +128,8 @@ public:
 					{
 						if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.openMenu)
 						{
-						menu.blit();
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+							menu.blit();
+							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
@@ -134,7 +137,6 @@ public:
 
 						switch (menu.checkButtonClick(this->cursor_X, this->cursor_Y)) {
 						case menu.btnsEnum::playBtn:
-							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
 							restart();
@@ -171,9 +173,9 @@ public:
 							//this->menuFlag = gameSettings::menuSetting.close;
 							return 0;
 							break;
-						
+
 						default:
-break;
+							break;
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.setting)
@@ -232,6 +234,19 @@ break;
 							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 							menu.blit();
 						}
+					}
+					else if (this->menuFlag == gameSettings::menuSetting.gameEndWin)
+					{
+						if (egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.cancel) {
+							///restartWithoutSaveUser
+						}
+						else if(egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.saveAndRestart)
+						{
+							///restartWithSaveUser
+							this->restart();
+						}
+							//		egw.blit();
+							//	SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 					}
 				}
 

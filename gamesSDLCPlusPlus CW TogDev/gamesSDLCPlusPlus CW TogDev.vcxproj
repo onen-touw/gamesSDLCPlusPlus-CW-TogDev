@@ -141,6 +141,7 @@
     <ClCompile Include="botClass.cpp" />
     <ClCompile Include="botsClass.cpp" />
     <ClCompile Include="characterClass.cpp" />
+    <ClCompile Include="endGameWinClass.cpp" />
     <ClCompile Include="fieldClass.cpp" />
     <ClCompile Include="gameplayClass.cpp" />
     <ClCompile Include="headerClass.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="botClass.h" />
     <ClInclude Include="botsClass.h" />
     <ClInclude Include="characterClass.h" />
+    <ClInclude Include="endGameWinClass.h" />
     <ClInclude Include="fieldClass.h" />
     <ClInclude Include="gameplayClass.h" />
     <ClInclude Include="headerClass.h" />

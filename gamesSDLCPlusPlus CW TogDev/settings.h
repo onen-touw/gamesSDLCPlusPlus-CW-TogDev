@@ -26,7 +26,8 @@ struct menuSettings
 		load,
 		setting,
 		statistic,
-		about
+		about,
+		gameEndWin,
 	};
 };
 struct winSettings
