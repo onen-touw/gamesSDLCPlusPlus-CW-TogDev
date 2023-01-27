@@ -6,7 +6,7 @@
 class endGameWinClass : public interfaceObjects
 {
 
-public: int cancel = 0, saveAndRestart = 1;
+public: int cancel = 1, saveAndRestart = 0;
 
 private:
 	short positionStartX = gameSettings::winSetting.winW / 2 - gameSettings::menuSetting.btnW;

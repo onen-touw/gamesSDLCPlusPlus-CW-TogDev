@@ -81,6 +81,12 @@ public:
 		SDL_FreeSurface(tempSurf);
 	}
 
+	void blitWithTxt2(const char* text, SDL_Rect objRect, SDL_Color color = { 0,0,0 }) {
+		SDL_Surface* tempSurf = TTF_RenderText_Solid(this->font, text, color);
+		SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &objRect);
+		SDL_FreeSurface(tempSurf);
+	}
+
 	/*void blitWithTxt(SDL_Surface* img, const char* text, SDL_Rect objRect, SDL_Color color = { 0,0,0 }) {
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect);
 

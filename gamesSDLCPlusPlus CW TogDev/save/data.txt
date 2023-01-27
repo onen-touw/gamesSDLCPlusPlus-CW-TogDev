@@ -1,8 +1,8 @@
 5hui 2 16
 yakov_koshkin 1 8
+datoha 1 8
+daniil 1 6
 yakov_koshkin 1 5
-yakov_koshkin 1 5
-TempName 0 0
 5TempName 0 0
 TempName 0 0
 TempName 0 0
