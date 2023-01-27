@@ -9,6 +9,7 @@
 #include"headerClass.h"
 #include"characterClass.h"
 #include"botsClass.h"
+#include"saveClass.h"
 
 
 #include"fieldClass.h"
@@ -24,6 +25,7 @@ private:
 	characterClass* character = nullptr;
 	fieldClass* field = nullptr;
 	botsClass* bots = nullptr;
+	saveClass* save = nullptr;
 
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -32,6 +34,7 @@ private:
 	short int gloop = 0;
 	short int botsNumber = 5;
 	short int botsKillCounter = 0;
+	short int levelCounter = 0;
 
 	int menuFlag = gameSettings::menuSetting.close;
 
@@ -40,10 +43,14 @@ public:
 		this->character = new characterClass();
 		this->field = new fieldClass();
 		this->bots = new botsClass();
+		this->save = new saveClass();
 	}
 	~gameplayClass()
 	{
-		
+		delete this->character;
+		delete this->field;
+		delete this->bots;
+		delete this->save;
 	}
 
 	void restart()
@@ -146,6 +153,9 @@ public:
 						case menu.btnsEnum::statistic:
 							std::cout << "Menu::buttons::statistic\n";
 							this->menuFlag = gameSettings::menuSetting.statistic;
+							statisticWin.setStat(this->save->getStat(gameSettings::fieldSetting.easy), gameSettings::fieldSetting.easy);
+							statisticWin.setStat(this->save->getStat(gameSettings::fieldSetting.normal), gameSettings::fieldSetting.normal);
+							statisticWin.setStat(this->save->getStat(gameSettings::fieldSetting.hard), gameSettings::fieldSetting.hard);
 							statisticWin.updateStatistic();
 							statisticWin.blit();
 							break;
@@ -268,27 +278,29 @@ break;
 					this->field->blitField();
 					if (this->character->bombChecking(this->field->getFiledVectorLink(), this->field) == 1)
 					{
-						this->bots->killBots(this->character->getBombPos());
+						botsKillCounter += this->bots->killBots(this->character->getBombPos());
 						if (this->character->characterDeadBomb())
 						{
+							this->save->updateStat("hui", levelCounter, botsKillCounter, gameSettings::fieldSetting.hardness);
 							botsKillCounter = 0;
+							levelCounter = 0;
 							botsNumber = 5;
 							restart();
 							header.blit();
 						}
-						if (this->bots->getBotsSize() == 0)
+						else if (this->bots->getBotsSize() == 0)
 						{
-							botsKillCounter ++;
+							levelCounter ++;
 							this->botsNumber += 3;
-							statisticWin.setStat(botsKillCounter, gameSettings::fieldSetting.hardness);
-							statisticWin.updateStatistic();
 							restart();
 							header.blit();
 						}
 					}
 					if (this->bots->killCharacter(this->character->getPosition()))
 					{
+						this->save->updateStat("yakov_koshkin", levelCounter, botsKillCounter, gameSettings::fieldSetting.hardness);
 						botsKillCounter = 0;
+						levelCounter = 0;
 						botsNumber = 5;
 						restart();
 						header.blit();

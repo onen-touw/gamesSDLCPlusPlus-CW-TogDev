@@ -149,6 +149,7 @@
     <ClCompile Include="imageClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuClass.cpp" />
+    <ClCompile Include="saveClass.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingWinClass.cpp" />
     <ClCompile Include="statisticWinClass.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="fontClass.h" />
     <ClInclude Include="imageClass.h" />
     <ClInclude Include="menuClass.h" />
+    <ClInclude Include="saveClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="settingWinClass.h" />
     <ClInclude Include="statisticWinClass.h" />
