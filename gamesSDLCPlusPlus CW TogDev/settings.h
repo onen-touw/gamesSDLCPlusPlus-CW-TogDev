@@ -18,13 +18,13 @@ struct btnsStruct
 struct menuSettings
 {
 	//short padding5 = 5;	///px
+	short pading20 = 20;
 	short btnH=45, btnW = 150;
 	enum menuState
 	{
 		close,
 		mainMenuWindow,
-		load,
-		statistic,
+		setting,
 		about
 	};
 };

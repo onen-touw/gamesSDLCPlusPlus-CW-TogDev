@@ -7,9 +7,7 @@ class menuClass : public interfaceObjects
 public:/*const*/ enum btnsEnum
 	{
 		playBtn,
-		loadBtn,
-		settingBtn,
-		statistic,
+		setting,
 		aboutGame,
 		quitBtn,
 	};
@@ -17,11 +15,10 @@ private:
 	short positionStartX = gameSettings::winSetting.winW / 2 - gameSettings::menuSetting.btnW / 2;
 	short positionStartY = 50;
 	std::vector< btnsStruct>btnsV = {
-		{"»√–¿“‹", {positionStartX, positionStartY, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"«¿√–”«»“‹", {positionStartX, positionStartY*2, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"—“¿“»—“» ¿", {positionStartX, positionStartY * 3, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"Œ¡ »√–≈", {positionStartX, positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"¬€’Œƒ", {positionStartX,positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"œ–ŒƒŒÀ∆»“‹", {positionStartX, positionStartY, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"Õ¿—“–Œ… »", {positionStartX, positionStartY * 2, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"Œ œ–»ÀŒ∆≈Õ»»", {positionStartX, positionStartY * 3, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"¬€’Œƒ", {positionStartX,positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect menuRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH};
 	
