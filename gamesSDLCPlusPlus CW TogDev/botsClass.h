@@ -284,7 +284,6 @@ public:
 	}
 	void updateBots(std::vector<std::vector<cell>>& field, point charPos)
 	{
-		std::cout << "hui" << std::endl;
 		this->findWay(field, charPos);
 		std::cout << this->way.size() << std::endl;
 		for (int i = 0; i < bots.size(); i++)
