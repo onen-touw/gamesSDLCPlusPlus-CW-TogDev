@@ -27,56 +27,58 @@ public:
 	{
 		return this->bots.size();
 	}
-	void killBots(point boomPosition)
+	short int killBots(point boomPosition)
 	{
+		short int counter = 0;
 		for (int i = 0; i < bots.size(); i++)
 		{
 			if (bots[i].getPosition().p1 == boomPosition.p1 && bots[i].getPosition().p2 == boomPosition.p2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 + 1 && bots[i].getPosition().p2 == boomPosition.p2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 + 2 && bots[i].getPosition().p2 == boomPosition.p2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 - 1 && bots[i].getPosition().p2 == boomPosition.p2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 - 2 && bots[i].getPosition().p2 == boomPosition.p2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 && bots[i].getPosition().p2 == boomPosition.p2 + 1)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 && bots[i].getPosition().p2 == boomPosition.p2 + 2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 && bots[i].getPosition().p2 == boomPosition.p2 - 1)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 			else if (bots[i].getPosition().p1 == boomPosition.p1 && bots[i].getPosition().p2 == boomPosition.p2 - 2)
 			{
 				bots.erase(bots.begin() + i);
-				return;
+				counter++;
 			}
 		}
+		return counter;
 	}
 	bool killCharacter(point charpos)
 	{

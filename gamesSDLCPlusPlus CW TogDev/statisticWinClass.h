@@ -15,9 +15,9 @@ private:
 	SDL_Rect menuRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH };
 
 	std::string text = "";
-	short int easyKillCount = 0;
-	short int normalKillCount = 0;
-	short int hardKillCount = 0;
+	std::vector<std::pair<std::string, std::pair<short int, short int>>> statisticEasy;
+	std::vector<std::pair<std::string, std::pair<short int, short int>>> statisticNormal;
+	std::vector<std::pair<std::string, std::pair<short int, short int>>> statisticHard;
 
 public:
 	statisticWinClass(SDL_Surface* bgImg, SDL_Surface* btnImg, TTF_Font* font) :
@@ -31,32 +31,39 @@ public:
 		this->btnsV.clear();
 	}
 
-	void setStat(short int killCount, short int hardness)
+	void setStat(std::vector<std::pair<std::string, std::pair<short int, short int>>> statistic, short int hardness)
 	{
 		if (hardness == gameSettings::fieldSetting.hardnessEnum::easy)
 		{
-			this->easyKillCount = killCount;
+			this->statisticEasy = statistic;
 		}
 		else if (hardness == gameSettings::fieldSetting.hardnessEnum::normal)
 		{
-			this->normalKillCount = killCount;
+			this->statisticNormal = statistic;
 		}
 		else if (hardness == gameSettings::fieldSetting.hardnessEnum::hard)
 		{
-			this->hardKillCount = killCount;
+			this->statisticHard = statistic;
 		}
 	}
 
 	void updateStatistic() {
-		this->text = "Статистика:\n"
-			"Легкий уровень:\n"
-			"кол-во пройденных уровней" + std::to_string(easyKillCount) + "\n"
-			"Средний уровень:\n"
-			"кол-во пройденных уровней" + std::to_string(normalKillCount) + "\n"
-			"Сложный уровень:\n"
-			"кол-во пройденных уровней" + std::to_string(hardKillCount) + "\n"
-
-			"ВОТЬ\n";
+		this->text = "Статистика:\n";
+		text += "Легкий уровень сложности:\n";
+		for (int i = 0; i < statisticEasy.size(); i++)
+		{
+			text += std::to_string(i + 1) + " " + statisticEasy[i].first + " levels: " + std::to_string(statisticEasy[i].second.first) + ", kills: " + std::to_string(statisticEasy[i].second.second) + "\n";
+		}
+		text += "Средний уровень сложности:\n";
+		for (int i = 0; i < statisticNormal.size(); i++)
+		{
+			text += std::to_string(i + 1) + " " + statisticNormal[i].first + " levels: " + std::to_string(statisticNormal[i].second.first) + ", kills: " + std::to_string(statisticNormal[i].second.second) + "\n";
+		}
+		text += "Высокий уровень сложности:\n";
+		for (int i = 0; i < statisticHard.size(); i++)
+		{
+			text += std::to_string(i + 1) + " " + statisticHard[i].first + " levels: " + std::to_string(statisticHard[i].second.first) + ", kills: " + std::to_string(statisticHard[i].second.second) + "\n";
+		}
 	}
 
 	void blit() {
