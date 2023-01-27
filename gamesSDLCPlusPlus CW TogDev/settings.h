@@ -31,15 +31,14 @@ struct menuSettings
 struct winSettings
 {
 	const short header = 70;
-	const short winH = 600;
-	const short winW = 600;
+	const short winH = 600 + this->header;
+	const short winW = 900;
 	const short winTopBorder = 31;
 
 	SDL_Window* win = nullptr;
 	SDL_Surface* surface = nullptr;
 };
 ///========================================================================================
-
 
 
 struct imagePath
@@ -54,26 +53,56 @@ struct point
 	short p1 = 0;
 	short p2 = 0;
 };
-
-
-struct cell
+struct snakePaaram
 {
-	point pxPosition = { 0,0 };
-	bool live = false;
+	point lastPos = { 0,0 };
+	point pos = { 0,0 };
+};
+
+
+enum _directions {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT,
+};
+
+struct cellV
+{
+	int x = 0, y = 0;	///px
+	int i = 0, j = 0;	///cell in matrix
+
 };
 
 struct fieldSettings
 {
-	enum images
+	enum imagesField
 	{
-		cellDead,
-		cellLive,
+		empty,
+		border,
 
 		TOTAL
 	};
+
+	const int fieldSizeH = 40;		///cells
+	const int fieldSizeW = 60;		///cells
+	const int cellSize = 30;		///px
+
 	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
+		{"./image/field/emptyCell.png", imagesField::empty},
+		{"./image/field/borderWall.png", imagesField::border},
+	};
+
+
+	enum imagesSnake
+	{
+		head, body, tail, emptyCell
+	};
+	std::vector<imagePath>snakeImagesPathVector = {
+		{"./image/snake/head.png", imagesSnake::head},
+		{"./image/snake/body.png", imagesSnake::body},
+		{"./image/snake/tail.png", imagesSnake::tail},
+		{"./image/snake/empty.png", imagesSnake::emptyCell},
 	};
 
 };

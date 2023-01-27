@@ -144,6 +144,7 @@
     <ClCompile Include="menuClass.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingWinClass.cpp" />
+    <ClCompile Include="snakeClass.cpp" />
     <ClCompile Include="statisticWinClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="menuClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="settingWinClass.h" />
+    <ClInclude Include="snakeClass.h" />
     <ClInclude Include="statisticWinClass.h" />
   </ItemGroup>
   <ItemGroup>

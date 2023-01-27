@@ -27,11 +27,11 @@ private:
 	SDL_Rect winRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH };
 	
 
-	short tempHardness = gameSettings::fieldSetting.hardness;
+	//short tempHardness = gameSettings::fieldSetting.hardness;
 
 	SDL_Surface* switchImg = nullptr;
-	SDL_Rect switchRect = { int(positionStartX - 1.5 * gameSettings::menuSetting.btnH), (tempHardness + 1) * positionStartY,
-		gameSettings::menuSetting.btnH,gameSettings::menuSetting.btnH };
+	//SDL_Rect switchRect = { int(positionStartX - 1.5 * gameSettings::menuSetting.btnH), (tempHardness + 1) * positionStartY,
+		//gameSettings::menuSetting.btnH,gameSettings::menuSetting.btnH };
 
 public:
 	settingWinClass(SDL_Surface* bgImg, SDL_Surface* btnImg,SDL_Surface* switchImg, TTF_Font* font) :
@@ -47,23 +47,23 @@ public:
 	}
 
 	void changeHardness(int i) {
-		this->tempHardness = i;
+		//this->tempHardness = i;
 		this->blit();
 		SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 	}
 	void applyHardness() {
-		gameSettings::fieldSetting.hardness = this->tempHardness;
+		//gameSettings::fieldSetting.hardness = this->tempHardness;
 	}
 	void resetHardness() {
-		this->tempHardness = gameSettings::fieldSetting.hardness;
+		//this->tempHardness = gameSettings::fieldSetting.hardness;
 	}
 
 	void blit() {
-		this->blitBg();
+	/*	this->blitBg();
 		this->blitBtns();
 		this->switchRect.y = (tempHardness + 1) * positionStartY;
 		SDL_BlitScaled(this->switchImg, NULL, gameSettings::winSetting.surface, &switchRect);
-		SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+		SDL_UpdateWindowSurface(gameSettings::winSetting.win);*/
 	}
 
 };

@@ -54,7 +54,7 @@ public:
 			success = false;
 		}
 
-		if (TTF_Init()!=0)
+		if (TTF_Init() != 0)
 		{
 			//std::cout << "problem::ttfInit\n";
 			error += "\tproblem::TTF_Init\n";

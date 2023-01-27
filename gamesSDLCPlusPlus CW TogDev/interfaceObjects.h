@@ -41,8 +41,8 @@ public:
 	~interfaceObjects()
 	{
 		this->btns.clear();
-		SDL_FreeSurface(this->bgImg);
-		SDL_FreeSurface(this->btnImg);
+		//SDL_FreeSurface(this->bgImg);
+		//SDL_FreeSurface(this->btnImg);
 		/*if (this->font != nullptr)
 		{
 			std::cout << "notnull";
