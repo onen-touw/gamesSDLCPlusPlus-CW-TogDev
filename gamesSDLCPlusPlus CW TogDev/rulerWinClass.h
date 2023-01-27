@@ -11,7 +11,7 @@ private:
     int containerTextH = 100;
     int imageH = 200;
     SDL_Surface* pict = nullptr;
-    short objLenth = 0;
+    int objLenth = 0;
 
 public:
     rulerWinClass(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect rect) :interfaceObjects(bgImg, font, rect) {
@@ -31,12 +31,15 @@ public:
         this->blitOnlyTextCenter(this->text1.c_str(), containerTxtRect);
     }
 
-    void setPictureToCompaire(SDL_Surface* img) {
+    void setPictureToCompaire(SDL_Surface* img, int objLenth) {
         this->pict = img;
+        this->objLenth = objLenth;
     }
 
     void blitPict() {
         this->blitBg(this->pict, this->rectForChosenPict);
     }
+
+    int tempGetL() { return this->objLenth; }
 }; 
 

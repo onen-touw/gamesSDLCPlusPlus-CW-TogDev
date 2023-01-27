@@ -12,6 +12,7 @@ private:
     std::vector<SDL_Rect>imgRects = {};
     int containerTextH = 100;
     int imageH = 100;
+    int ingNum = -1;
 
 public:
     midSectionClass(SDL_Surface* bgImg, TTF_Font* font, SDL_Rect rect) :interfaceObjects(bgImg, font, rect) {
@@ -47,12 +48,16 @@ public:
             if (x >= imgRects[i].x && x <= imgRects[i].x + imgRects[i].w 
                 && y >= imgRects[i].y && y <= imgRects[i].y + imgRects[i].h)
             {
+                this->ingNum = i;
                 return imageVector[i];
             }
         }
         return nullptr;
     }
+    int getImgLenth() {
 
+        return gameSettings::objectsFC.objParam[this->ingNum].lenth;
+    }
 
 };
 

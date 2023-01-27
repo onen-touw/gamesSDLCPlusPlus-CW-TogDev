@@ -35,18 +35,18 @@ public:
 		std::string text = "";
 		if (lLenth > rLenth)
 		{
-			text = "В левом объекте " + std::to_string(float(lLenth / rLenth)) + " правых";
+			text = "В левом объекте " + std::to_string((lLenth / (float)rLenth)) + " правых";
 		}
 		else if (lLenth < rLenth)
 		{
-			text = "В правом объекте " + std::to_string(float(lLenth / rLenth)) + " левых";
+			text = "В правом объекте " + std::to_string((rLenth / (float)lLenth)) + " левых";
 		}
 		else
 		{
 			text = "Объекты равны";
 		}
-
-		this->blitTxt(text.c_str(), { 100, 20 });
+		this->blit();
+		this->blitTxt(text.c_str(), { gameSettings::winSetting.winW /2, 30, 100, 40 });
 	}
 };
 

@@ -100,6 +100,7 @@ public:
 							sections[0]->blit();
 							sections[1]->blit();
 							this->midSection->blit();
+							header.blit();
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 						}
 					}
@@ -112,15 +113,10 @@ public:
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
 							this->menuFlag = gameSettings::menuSetting.close;
-							break;
-						case menu.btnsEnum::loadBtn:
-							std::cout << "Menu::buttons::load\n";
-							///=PASS=
-							break;
-						
-						case menu.btnsEnum::statistic:
+							break;	
+						case menu.btnsEnum::setting:
 							std::cout << "Menu::buttons::statistic\n";
-							this->menuFlag = gameSettings::menuSetting.statistic;
+							this->menuFlag = gameSettings::menuSetting.setting;
 							statisticWin.loadStatistic();
 							statisticWin.blit();
 							break;
@@ -131,10 +127,6 @@ public:
 							break;
 						case menu.btnsEnum::quitBtn:
 							std::cout << "Menu::buttons::quit\n";
-							header.blit();
-
-							///temp
-							//this->menuFlag = gameSettings::menuSetting.close;
 							return 0;
 							break;
 						
@@ -151,7 +143,7 @@ public:
 							menu.blit();
 						}
 					}
-					else if (this->menuFlag == gameSettings::menuSetting.statistic)
+					else if (this->menuFlag == gameSettings::menuSetting.setting)
 					{
 						if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
 						{
@@ -201,7 +193,7 @@ public:
 							{
 								if (this->cursor_X < gameSettings::winSetting.block && this->pictLeft<1)
 								{
-									this->sections[0]->setPictureToCompaire(this->tempImg);
+									this->sections[0]->setPictureToCompaire(this->tempImg, this->midSection->getImgLenth());
 									this->pictLeft++;
 									this->tempImg = nullptr;
 									SDL_UpdateWindowSurface(gameSettings::winSetting.win);
@@ -209,7 +201,7 @@ public:
 								}
 								else if (this->cursor_X > gameSettings::winSetting.block + gameSettings::winSetting.midSection && this->pictRight<1)
 								{
-									this->sections[1]->setPictureToCompaire(this->tempImg);
+									this->sections[1]->setPictureToCompaire(this->tempImg, this->midSection->getImgLenth());
 									this->pictRight++;
 									this->tempImg = nullptr;
 									SDL_UpdateWindowSurface(gameSettings::winSetting.win);
@@ -218,22 +210,26 @@ public:
 							}
 						}
 					}
-					if (this->pictLeft || this->pictRight)
+					if (this->pictLeft || this->pictRight )
 					{
 
 						if (this->pictLeft)
 						{
+							//std::cout << this->sections[0]->tempGetL() << " lLeft\n";
 							this->sections[0]->blitPict();
 						}
 						if (this->pictRight)
 						{
+							//std::cout << this->sections[1]->tempGetL() << " lRight\n";
 							this->sections[1]->blitPict();
 						}
+						if (this->pictLeft + this->pictRight == 2)
+						{
+							header.blitCompairResult(this->sections[0]->tempGetL(), this->sections[1]->tempGetL());
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+						}
 						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-					}
-					else if (this->pictLeft || this->pictRight == 2)
-					{
-						//header.blitCompairResult();
+
 					}
 				}
 				

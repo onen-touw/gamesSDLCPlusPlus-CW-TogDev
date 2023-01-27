@@ -23,8 +23,7 @@ struct menuSettings
 	{
 		close,
 		mainMenuWindow,
-		load,
-		statistic,
+		setting,
 		about
 	};
 };
