@@ -162,6 +162,7 @@
     <ClInclude Include="midSectionClass.h" />
     <ClInclude Include="rulerWinClass.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="settingWinClass.h" />
     <ClInclude Include="statisticWinClass.h" />
   </ItemGroup>
   <ItemGroup>

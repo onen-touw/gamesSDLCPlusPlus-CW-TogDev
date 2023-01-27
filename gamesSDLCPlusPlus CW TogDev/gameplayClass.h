@@ -4,7 +4,7 @@
 
 #include"menuClass.h"
 #include"aboutWinClass.h"
-#include"statisticWinClass.h"
+#include"settingWinClass.h"
 #include"headerClass.h"
 
 #include "rulerWinClass.h"
@@ -48,7 +48,8 @@ public:
 			fontClass font; imageClass img;
 			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"),img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
+			settingWinClass settingsWin= settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
+
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
@@ -117,8 +118,8 @@ public:
 						case menu.btnsEnum::setting:
 							std::cout << "Menu::buttons::statistic\n";
 							this->menuFlag = gameSettings::menuSetting.setting;
-							statisticWin.loadStatistic();
-							statisticWin.blit();
+					
+							settingsWin.blit();
 							break;
 						case menu.btnsEnum::aboutGame:
 							this->menuFlag = gameSettings::menuSetting.about;
@@ -145,12 +146,12 @@ public:
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.setting)
 					{
-						if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
+						/*if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
 						{
 							std::cout << "statisticWin::buttons::cancel\n";
 							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 							menu.blit();
-						}
+						}*/
 					}
 				}
 
