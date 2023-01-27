@@ -2,6 +2,7 @@
 
 #include<vector>
 #include<iostream>
+#include<string>
 #include<SDL.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
@@ -23,7 +24,6 @@ struct menuSettings
 		close,
 		mainMenuWindow,
 		load,
-		setting,
 		statistic,
 		about
 	};
@@ -31,8 +31,10 @@ struct menuSettings
 struct winSettings
 {
 	const short header = 70;
-	const short winH = 600;
-	const short winW = 600;
+	const short block = 400;
+	const short midSection = 200;
+	const short winH = 600+this->header;
+	const short winW = block*2 + this->midSection;
 	const short winTopBorder = 31;
 
 	SDL_Window* win = nullptr;
@@ -42,10 +44,11 @@ struct winSettings
 
 
 
-struct imagePath
+struct objParams
 {
 	std::string path;
 	short int position;
+	short lenth;
 };
 
 
@@ -55,6 +58,29 @@ struct point
 	short p2 = 0;
 };
 
+enum ObjectID {
+	cat,
+	python,
+	cow,
+
+	TOTAL
+};
+//struct objCompParam
+//{
+//	SDL_Surface* img = nullptr;
+//	short lenth = 0;
+//	unsigned short id = 0;
+//};
+
+struct objectsForCompair {
+	std::vector<objParams>objParam = {
+		{"./image/objects/cat.png", cat, 5},
+		{"./image/objects/python.png", python,20},
+		{"./image/objects/cow.png" , cow, 99},
+	};
+};
+
+
 
 struct cell
 {
@@ -62,31 +88,12 @@ struct cell
 	bool live = false;
 };
 
-struct fieldSettings
-{
-	enum hardnessEn
-	{
-		easy,normal,hard,
-	};
-	short hardness = hardnessEn::easy;
-	enum images
-	{
-		cellDead,
-		cellLive,
 
-		TOTAL
-	};
-	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
-	};
-
-};
 
 namespace gameSettings {
 
 	extern winSettings winSetting;
 	extern menuSettings menuSetting;
-	extern fieldSettings fieldSetting;
+	extern objectsForCompair objectsFC;
 }
 

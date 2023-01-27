@@ -3,12 +3,12 @@
 #include "baseGameClass.h"
 
 #include"menuClass.h"
-#include"settingWinClass.h"
 #include"aboutWinClass.h"
 #include"statisticWinClass.h"
 #include"headerClass.h"
 
-#include"tempBgAllClass.h"
+#include "rulerWinClass.h"
+#include "midSectionClass.h"
 
 #include "imageClass.h"
 #include"fontClass.h"
@@ -19,15 +19,26 @@ class gameplayClass
 private:
 	baseGameClass base;
 	
+	SDL_Surface* tempImg = nullptr;
+
 	int cursor_X = 0, cursor_Y = 0;
 
 	bool game = true;
-	bool tempMenuStop = false;
+	bool pictChose = false;
+	int pictRight = 0;
+	int pictLeft = 0;
 
 	int menuFlag = gameSettings::menuSetting.close;
-
+	rulerWinClass* sections[2];
+	midSectionClass* midSection = nullptr;
 
 public:
+
+	void transmitImg(SDL_Surface* img, int m_x, int m_y) {
+		SDL_Rect mr = { m_x - img->w / 2, m_y - img->h / 2, img->w, img->h };
+		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &mr);
+		//SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+	}
 
 	int start() {
 
@@ -36,16 +47,30 @@ public:
 			SDL_Event event;
 			fontClass font; imageClass img;
 			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"),img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			settingWinClass settingWin = settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), img.loadOneImg("./image/menu/switchTemp.png"), font.getFont());
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
-			tempBgAllClass tempBg = tempBgAllClass(img.loadOneImg("./image/menu/mainBg.png"));
 
+			this->sections[0] = new rulerWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
+				{0,gameSettings::winSetting.header, gameSettings::winSetting.block, 
+				gameSettings::winSetting.winH-gameSettings::winSetting.header});
+			this->sections[1] = new rulerWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
+				{gameSettings::winSetting.block + gameSettings::winSetting.midSection,gameSettings::winSetting.header, gameSettings::winSetting.block, 
+				gameSettings::winSetting.winH-gameSettings::winSetting.header});
+			this->midSection = new midSectionClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(), { 
+				gameSettings::winSetting.block,
+				gameSettings::winSetting.header,
+				gameSettings::winSetting.midSection,
+				gameSettings::winSetting.winH - gameSettings::winSetting.header 
+				});
 
+			
+			
+			sections[0]->blit();
+			sections[1]->blit();
+			this->midSection->blit();
 			header.blit();
-			tempBg.blit();
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 
@@ -64,8 +89,18 @@ public:
 					{
 						if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.openMenu)
 						{
-						menu.blit();
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+							menu.blit();
+							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+						}
+						else if (header.checkButtonClick(this->cursor_X, this->cursor_Y) == header.reset)
+						{
+							this-> pictChose = false;
+							this->pictRight = 0;
+							this->pictLeft = 0;
+							sections[0]->blit();
+							sections[1]->blit();
+							this->midSection->blit();
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 						}
 					}
 					else if (this->menuFlag == gameSettings::menuSetting.mainMenuWindow)
@@ -82,11 +117,7 @@ public:
 							std::cout << "Menu::buttons::load\n";
 							///=PASS=
 							break;
-						case menu.btnsEnum::settingBtn:
-							std::cout << "Menu::buttons::settings\n";
-							this->menuFlag = gameSettings::menuSetting.setting;
-							settingWin.blit();
-							break;
+						
 						case menu.btnsEnum::statistic:
 							std::cout << "Menu::buttons::statistic\n";
 							this->menuFlag = gameSettings::menuSetting.statistic;
@@ -101,48 +132,12 @@ public:
 						case menu.btnsEnum::quitBtn:
 							std::cout << "Menu::buttons::quit\n";
 							header.blit();
-							tempBg.blit();
 
 							///temp
 							//this->menuFlag = gameSettings::menuSetting.close;
 							return 0;
 							break;
 						
-						default:
-							break;
-						}
-					}
-					else if (this->menuFlag == gameSettings::menuSetting.setting)
-					{
-						switch (settingWin.checkButtonClick(this->cursor_X, this->cursor_Y))
-						{
-						case settingWin.btnsEnum::easy:
-							std::cout << "setting::buttons::easy\n";
-							settingWin.changeHardness(settingWin.btnsEnum::easy);
-							break;
-						case settingWin.btnsEnum::normal:
-							std::cout << "setting::buttons::normal\n";
-							settingWin.changeHardness(settingWin.btnsEnum::normal);
-							break;
-						case settingWin.btnsEnum::hard:
-							std::cout << "setting::buttons::hard\n";
-							settingWin.changeHardness(settingWin.btnsEnum::hard);
-							break;
-						case settingWin.btnsEnum::apply:
-							std::cout << "setting::buttons::apply\n";
-							this->menuFlag = gameSettings::menuSetting.close;
-							settingWin.applyHardness();
-							///blitGameFieldAndOther =PASS=
-							break;
-						case settingWin.btnsEnum::cancel:
-							std::cout << "setting::buttons::cancel\n";
-							settingWin.resetHardness();
-							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-							menu.blit();
-
-							break;
-
-
 						default:
 							break;
 						}
@@ -171,10 +166,75 @@ public:
 
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
-					header.blit();
-					tempBg.blit();
-					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					sections[0]->blit();
+					sections[1]->blit();
+					this->midSection->blit();
+					
+					if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONDOWN) {
+						SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
+						if (!this->pictChose && this->pictLeft+this->pictRight<2)
+						{
+							std::cout << "yeahboy\n";
+							this->tempImg = this->midSection->choseImgByClick(this->cursor_X, this->cursor_Y);
+							if (this->tempImg)
+							{
+								this->pictChose = true;
+							}
+						}else std::cout << "nayboy\n";
+					}
+					else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEMOTION)
+					{
+						if (this->pictChose)
+						{
+							this->cursor_X = event.motion.x;
+							this->cursor_Y = event.motion.y;
+							
+							this->transmitImg(this->tempImg, this->cursor_X, this->cursor_Y);
+						}
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);						
+					}
+					else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
+					{
+						SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
+						if (this->pictChose) {
+							if (this->cursor_Y > gameSettings::winSetting.header)
+							{
+								if (this->cursor_X < gameSettings::winSetting.block && this->pictLeft<1)
+								{
+									this->sections[0]->setPictureToCompaire(this->tempImg);
+									this->pictLeft++;
+									this->tempImg = nullptr;
+									SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+									this->pictChose = false;
+								}
+								else if (this->cursor_X > gameSettings::winSetting.block + gameSettings::winSetting.midSection && this->pictRight<1)
+								{
+									this->sections[1]->setPictureToCompaire(this->tempImg);
+									this->pictRight++;
+									this->tempImg = nullptr;
+									SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+									this->pictChose = false;
+								}
+							}
+						}
+					}
+					if (this->pictLeft || this->pictRight)
+					{
 
+						if (this->pictLeft)
+						{
+							this->sections[0]->blitPict();
+						}
+						if (this->pictRight)
+						{
+							this->sections[1]->blitPict();
+						}
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					}
+					else if (this->pictLeft || this->pictRight == 2)
+					{
+						//header.blitCompairResult();
+					}
 				}
 				
 				

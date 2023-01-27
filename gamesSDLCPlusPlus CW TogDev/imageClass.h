@@ -41,7 +41,7 @@ public:
 		return imageVector[enumName];
 	}
 
-	void loadImages(std::vector<imagePath>vPaths) {
+	void loadImages(std::vector<objParams>vPaths) {
 
 		this->createImageVector(vPaths.size());
 		

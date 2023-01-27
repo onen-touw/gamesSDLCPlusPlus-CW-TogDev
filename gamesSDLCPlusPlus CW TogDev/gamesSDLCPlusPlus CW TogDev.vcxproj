@@ -145,11 +145,10 @@
     <ClCompile Include="imageClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menuClass.cpp" />
+    <ClCompile Include="midSectionClass.cpp" />
     <ClCompile Include="rulerWinClass.cpp" />
     <ClCompile Include="settings.cpp" />
-    <ClCompile Include="settingWinClass.cpp" />
     <ClCompile Include="statisticWinClass.cpp" />
-    <ClCompile Include="tempBgAllClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aboutWinClass.h" />
@@ -160,11 +159,10 @@
     <ClInclude Include="fontClass.h" />
     <ClInclude Include="imageClass.h" />
     <ClInclude Include="menuClass.h" />
+    <ClInclude Include="midSectionClass.h" />
     <ClInclude Include="rulerWinClass.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="settingWinClass.h" />
     <ClInclude Include="statisticWinClass.h" />
-    <ClInclude Include="tempBgAllClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="font\courier.ttf" />

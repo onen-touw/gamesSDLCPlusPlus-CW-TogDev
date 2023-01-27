@@ -19,10 +19,9 @@ private:
 	std::vector< btnsStruct>btnsV = {
 		{"»√–¿“‹", {positionStartX, positionStartY, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 		{"«¿√–”«»“‹", {positionStartX, positionStartY*2, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"Õ¿—“–Œ… »", {positionStartX, positionStartY * 3, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"—“¿“»—“» ¿", {positionStartX, positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"Œ¡ »√–≈", {positionStartX, positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
-		{"¬€’Œƒ", {positionStartX,positionStartY * 6, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"—“¿“»—“» ¿", {positionStartX, positionStartY * 3, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"Œ¡ »√–≈", {positionStartX, positionStartY * 4, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"¬€’Œƒ", {positionStartX,positionStartY * 5, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect menuRect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.winH};
 	

@@ -5,14 +5,13 @@
 class headerClass : public interfaceObjects
 {
 
-
-	
-public:const short openMenu = 0;
+public:const short openMenu = 0, reset = 1;
 private:
-	//short positionStartX = gameSettings::winSetting.winW / 2 - gameSettings::menuSetting.btnW / 2;
-	//short positionStartY = 50;
+	
+
 	std::vector< btnsStruct>btnsV = {
 		{"МЕНЮ", {20, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
+		{"СБРОСИТЬ", {gameSettings::menuSetting.btnW + 40, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.header };
 	
@@ -32,7 +31,22 @@ public:
 		this->blitBtns();
 	}
 
+	void blitCompairResult(int lLenth, int rLenth) {
+		std::string text = "";
+		if (lLenth > rLenth)
+		{
+			text = "В левом объекте " + std::to_string(float(lLenth / rLenth)) + " правых";
+		}
+		else if (lLenth < rLenth)
+		{
+			text = "В правом объекте " + std::to_string(float(lLenth / rLenth)) + " левых";
+		}
+		else
+		{
+			text = "Объекты равны";
+		}
 
-
+		this->blitTxt(text.c_str(), { 100, 20 });
+	}
 };
 
