@@ -33,7 +33,12 @@ public:
 		this->blitBtns();
 	}
 
-
+	void blitInfo(short int killcount, short int lcount)
+	{
+		std::string text = "Уровень: " + std::to_string(lcount) + "   Убийств: " + std::to_string(killcount);
+		blit();
+		this->blitWithTxt2(text.c_str(), { gameSettings::winSetting.winW / 2, 30 });
+	}
 
 };
 

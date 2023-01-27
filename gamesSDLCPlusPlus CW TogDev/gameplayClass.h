@@ -23,7 +23,7 @@ class gameplayClass : public baseGameClass
 {
 private:
 	//baseGameClass base;
-	
+
 	characterClass* character = nullptr;
 	fieldClass* field = nullptr;
 	botsClass* bots = nullptr;
@@ -83,13 +83,13 @@ public:
 		this->character->characterBlit();
 	}
 
-	int mainLoop() 
+	int mainLoop()
 	{
 		if (this->initModuls())
 		{
 			SDL_Event event;
-			fontClass font; imageClass img; 
-			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"),img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
+			fontClass font; imageClass img;
+			menuClass menu = menuClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			settingWinClass settingWin = settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), img.loadOneImg("./image/menu/switchTemp.png"), font.getFont());
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			statisticWinClass statisticWin = statisticWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
@@ -109,7 +109,7 @@ public:
 			this->bots->blitBots(this->field->getFiledVectorLink());
 			this->character->characterBlit();
 			header.blit();
-			
+
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 
@@ -235,21 +235,57 @@ public:
 							menu.blit();
 						}
 					}
-					else if (this->menuFlag == gameSettings::menuSetting.gameEndWin)
-					{
-						if (egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.cancel) {
-							///restartWithoutSaveUser
-						}
-						else if(egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.saveAndRestart)
-						{
-							///restartWithSaveUser
-							this->restart();
-						}
-							//		egw.blit();
-							//	SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-					}
 				}
+				if (this->menuFlag == gameSettings::menuSetting.gameEndWin)
+				{
+					std::stringstream sars;
+					SDL_StartTextInput();
+					std::string text = "";
+					int x, y;
+					while (true)
+					{
+						SDL_PollEvent(&event);
+						if (event.type == SDL_TEXTINPUT)
+						{
+							text += event.text.text;
+							std::cout << text << std::endl;
+							SDL_Rect tempRect = {gameSettings::winSetting.winW/2- 200, 350, };
+							SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), {0,0,0});
+							SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+							SDL_FreeSurface(tempSurf);
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
+						}
+						else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
+						{
+							SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
+							if (egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.cancel) {
+								///restartWithoutSaveUser
+								botsKillCounter = 0;
+								levelCounter = 0;
+								botsNumber = 5;
+								SDL_StopTextInput();
+								this->restart();
+								header.blit();
+								break;
+							}
+							else if (egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.saveAndRestart)
+							{
+								///restartWithSaveUser
+								this->save->updateStat(text, levelCounter, botsKillCounter, gameSettings::fieldSetting.hardness);
+								std::cout << levelCounter << " " << botsKillCounter << " " << text << std::endl;
+								botsKillCounter = 0;
+								levelCounter = 0;
+								botsNumber = 5;
+								SDL_StopTextInput();
+								this->restart();
+								header.blit();
+								break;
+							}
+						}
+					}
+					SDL_StopTextInput();
+				}
 				if (this->menuFlag == gameSettings::menuSetting.close)
 				{
 
@@ -283,45 +319,41 @@ public:
 					{
 						this->character->setBomb();
 					}
-					
-					if (gloop >= 30/(gameSettings::fieldSetting.hardness + 1))
+
+					if (gloop >= 30 / (gameSettings::fieldSetting.hardness + 1))
 					{
 						this->bots->updateBots(this->field->getFiledVectorLink(), this->character->getPosition());
 						gloop = 0;
 					}
 					gloop++;
 					this->field->blitField();
+					this->bots->blitBots(this->field->getFiledVectorLink());
+					this->character->characterBlit();
 					if (this->character->bombChecking(this->field->getFiledVectorLink(), this->field) == 1)
 					{
 						botsKillCounter += this->bots->killBots(this->character->getBombPos());
+						header.blitInfo(botsKillCounter, levelCounter);
 						if (this->character->characterDeadBomb())
 						{
-							this->save->updateStat("hui", levelCounter, botsKillCounter, gameSettings::fieldSetting.hardness);
-							botsKillCounter = 0;
-							levelCounter = 0;
-							botsNumber = 5;
-							restart();
-							header.blit();
+							this->menuFlag = gameSettings::menuSetting.gameEndWin;
+							egw.blit();
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 						}
 						else if (this->bots->getBotsSize() == 0)
 						{
-							levelCounter ++;
+							levelCounter++;
 							this->botsNumber += 3;
 							restart();
-							header.blit();
+							header.blitInfo(botsKillCounter, levelCounter);
 						}
 					}
 					if (this->bots->killCharacter(this->character->getPosition()))
 					{
-						this->save->updateStat("yakov_koshkin", levelCounter, botsKillCounter, gameSettings::fieldSetting.hardness);
-						botsKillCounter = 0;
-						levelCounter = 0;
-						botsNumber = 5;
-						restart();
-						header.blit();
+						this->menuFlag = gameSettings::menuSetting.gameEndWin;
+						egw.blit();
+						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 					}
-					this->bots->blitBots(this->field->getFiledVectorLink());
-					this->character->characterBlit();
+
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 				}
 				SDL_Delay(1000 / 60);
@@ -337,4 +369,3 @@ public:
 		return 0;
 	}
 };
-
