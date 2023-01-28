@@ -38,7 +38,7 @@ private:
 	short int botsKillCounter = 0;
 	short int levelCounter = 0;
 
-	int menuFlag = gameSettings::menuSetting.close;
+	int menuFlag = gameSettings::menuSetting.mainMenuWindow;
 
 public:
 	gameplayClass() {
@@ -67,7 +67,7 @@ public:
 		this->tempMenuStop = false;
 		this->gloop = 0;
 
-		this->menuFlag = gameSettings::menuSetting.close;
+		this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 
 
 		this->field->generateFieldMatrix();
@@ -111,7 +111,7 @@ public:
 			header.blit();
 
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
+			menu.blit();
 
 			while (SDL_PollEvent(&event) || this->game)
 			{
@@ -240,16 +240,23 @@ public:
 				{
 					std::stringstream sars;
 					SDL_StartTextInput();
-					std::string text = "";
+					std::string text = "¬ведите ваше им€:";
+					SDL_Rect tempRect = { gameSettings::winSetting.winW / 2 - 100, 200, };
+					SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
+					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					SDL_FreeSurface(tempSurf);
+					text = "";
 					int x, y;
 					while (true)
 					{
 						SDL_PollEvent(&event);
 						if (event.type == SDL_TEXTINPUT)
 						{
+							
 							text += event.text.text;
 							std::cout << text << std::endl;
-							SDL_Rect tempRect = {gameSettings::winSetting.winW/2- 200, 350, };
+							SDL_Rect tempRect = {gameSettings::winSetting.winW/2- 70, 250, };
 							SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), {0,0,0});
 							SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
 							SDL_FreeSurface(tempSurf);
@@ -284,6 +291,7 @@ public:
 							}
 						}
 					}
+					menu.blit();
 					SDL_StopTextInput();
 				}
 				if (this->menuFlag == gameSettings::menuSetting.close)
