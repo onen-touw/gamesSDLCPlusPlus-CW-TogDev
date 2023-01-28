@@ -108,10 +108,8 @@ public:
 			}
 			this->bots->blitBots(this->field->getFiledVectorLink());
 			this->character->characterBlit();
-			header.blit();
-
-			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 			menu.blit();
+			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 			while (SDL_PollEvent(&event) || this->game)
 			{
@@ -273,7 +271,7 @@ public:
 								botsNumber = 5;
 								SDL_StopTextInput();
 								this->restart();
-								header.blit();
+								menu.blit();
 								break;
 							}
 							else if (egw.checkButtonClick(this->cursor_X, this->cursor_Y) == egw.saveAndRestart)
@@ -286,12 +284,11 @@ public:
 								botsNumber = 5;
 								SDL_StopTextInput();
 								this->restart();
-								header.blit();
+								menu.blit();
 								break;
 							}
 						}
 					}
-					menu.blit();
 					SDL_StopTextInput();
 				}
 				if (this->menuFlag == gameSettings::menuSetting.close)
