@@ -91,7 +91,6 @@ public:
 
 					switch (menu.checkButtonClick(this->cursor_X, this->cursor_Y)) {
 					case menu.btnsEnum::playBtn:
-						this->menuFlag = gameSettings::menuSetting.about;
 						std::cout << "Menu::buttons::play\n";
 						///start game or other =PASS=
 						this->menuFlag = gameSettings::menuSetting.close;
