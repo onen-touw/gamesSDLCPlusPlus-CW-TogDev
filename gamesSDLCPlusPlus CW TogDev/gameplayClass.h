@@ -6,9 +6,11 @@
 #include"aboutWinClass.h"
 #include"settingWinClass.h"
 #include"headerClass.h"
+#include<sstream>
 
 #include "rulerWinClass.h"
 #include "midSectionClass.h"
+
 
 #include "imageClass.h"
 #include"fontClass.h"
@@ -37,10 +39,11 @@ public:
 	void transmitImg(SDL_Surface* img, int m_x, int m_y) {
 		SDL_Rect mr = { m_x - img->w / 2, m_y - img->h / 2, img->w, img->h };
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &mr);
-		//SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 	}
 
 	int start() {
+
+
 
 		if (this->base.initModuls())
 		{
@@ -110,10 +113,15 @@ public:
 
 						switch (menu.checkButtonClick(this->cursor_X, this->cursor_Y)) {
 						case menu.btnsEnum::playBtn:
-							this->menuFlag = gameSettings::menuSetting.about;
 							std::cout << "Menu::buttons::play\n";
 							///start game or other =PASS=
 							this->menuFlag = gameSettings::menuSetting.close;
+							header.blit();
+							sections[0]->blit();
+							sections[1]->blit();
+							this->midSection->blit();
+
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 							break;	
 						case menu.btnsEnum::setting:
 							std::cout << "Menu::buttons::statistic\n";
@@ -144,17 +152,100 @@ public:
 							menu.blit();
 						}
 					}
-					else if (this->menuFlag == gameSettings::menuSetting.setting)
-					{
-						/*if (statisticWin.checkButtonClick(this->cursor_X, this->cursor_Y) == statisticWin.cancelBtn)
-						{
-							std::cout << "statisticWin::buttons::cancel\n";
-							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-							menu.blit();
-						}*/
-					}
 				}
+				if (this->menuFlag == gameSettings::menuSetting.setting)
+				{
 
+					std::stringstream sars;
+					SDL_StartTextInput();
+					std::string text = "¬ведите попор€дку размеры кота:";
+					SDL_Rect tempRect = { gameSettings::winSetting.winW / 2 - 100, 200, };
+					SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
+					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					SDL_FreeSurface(tempSurf);
+					text = "¬ведите попор€дку размеры питона:";
+					tempRect = { gameSettings::winSetting.winW / 2 - 100, 300, };
+					tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
+					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					SDL_FreeSurface(tempSurf);
+					text = "¬ведите попор€дку размеры коровы:";
+					tempRect = { gameSettings::winSetting.winW / 2 - 100, 400, };
+					tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
+					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+					SDL_FreeSurface(tempSurf);
+					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
+					text = "";
+					short int counter = 0;
+					while (true)
+					{
+						SDL_PollEvent(&event);
+						if (event.type == SDL_TEXTINPUT)
+						{
+
+							text += event.text.text;
+							//std::cout << text << std::endl;
+							if (counter == 0)
+							{
+								tempRect = { gameSettings::winSetting.winW / 2 - 70, 250, };
+							}
+							else if (counter == 1)
+							{
+								tempRect = { gameSettings::winSetting.winW / 2 - 70, 350, };
+							}
+							else if (counter == 2)
+							{
+								tempRect = { gameSettings::winSetting.winW / 2 - 70, 450, };
+							}
+							SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
+							SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+							SDL_FreeSurface(tempSurf);
+							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
+
+						}
+						else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
+						{
+							SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
+							if (settingsWin.checkButtonClick(this->cursor_X, this->cursor_Y) == settingsWin.cancel)
+							{
+								std::cout << "aboutWin::buttons::cancel\n";
+								this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+								menu.blit();
+								break;
+							}
+							if (settingsWin.checkButtonClick(this->cursor_X, this->cursor_Y) == settingsWin.apply)
+							{
+								std::cout << "aboutWin::buttons::cancel\n";
+								if (counter == 0)
+								{
+									int size = std::stoi(text);
+									gameSettings::objectsFC.objParam[0].lenth = size;
+									std::cout << size << std::endl;
+								}
+								else if (counter == 1)
+								{
+									int size = std::stoi(text);
+									gameSettings::objectsFC.objParam[1].lenth = size;
+									std::cout << size << std::endl;
+								}
+								else if (counter == 2)
+								{
+									int size = std::stoi(text);
+									gameSettings::objectsFC.objParam[2].lenth = size;
+									std::cout << size << std::endl;
+								}
+								counter++;
+								std::cout << counter << std::endl;
+								text = "";
+							}
+						}
+					}
+					SDL_StopTextInput();
+				}
 
 
 				if (this->menuFlag == gameSettings::menuSetting.close)

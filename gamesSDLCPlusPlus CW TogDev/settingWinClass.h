@@ -8,9 +8,6 @@ class settingWinClass : public interfaceObjects
 
 public: enum btnsEnum
 {
-	easy,
-	normal,
-	hard,
 	apply,
 	cancel,
 };
