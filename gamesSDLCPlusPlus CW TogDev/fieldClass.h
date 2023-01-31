@@ -10,9 +10,9 @@ private:
 
 
 public:
-	fieldClass(){
-
-
+	fieldClass()
+	{
+		 
 	}
 	~fieldClass()
 	{
