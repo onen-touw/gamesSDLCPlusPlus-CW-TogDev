@@ -100,13 +100,13 @@ public:
 	SDL_Rect getRect() { return this->objRect; }
 
 	void blitWithTextCenter(SDL_Surface* img, const char* text, SDL_Rect objRect, SDL_Color color = { 0,0,0 }){
-		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect);
-		SDL_Surface* tempSurf = TTF_RenderText_Solid(this->font, text, color);
-		SDL_Rect tempRect = { objRect.x + (objRect.w - tempSurf->w) / 2,objRect.y + (objRect.h - tempSurf->h) / 2,0,0 };
 		if (this->font == nullptr)
 		{
 			std::cout << "error\n";
 		}
+		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect);
+		SDL_Surface* tempSurf = TTF_RenderText_Solid(this->font, text, color);
+		SDL_Rect tempRect = { objRect.x + (objRect.w - tempSurf->w) / 2,objRect.y + (objRect.h - tempSurf->h) / 2,0,0 };
 		SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
 		SDL_FreeSurface(tempSurf);
 	}

@@ -15,12 +15,10 @@
 class gameplayClass : public baseGameClass
 {
 private:
-	//baseGameClass base;
 	
 	SDL_Surface* imgBgMenu = nullptr;
 	SDL_Surface* btnsImg = nullptr;
 	SDL_Surface* settingsSwitchImg = nullptr;
-	TTF_Font* font = nullptr;
 
 	int cursor_X = 0, cursor_Y = 0;
 
@@ -33,15 +31,13 @@ private:
 public:
 
 	gameplayClass() {
-		fontClass font; imageClass img;
 		this->initModuls();
+		imageClass img;
 		this->imgBgMenu = img.loadOneImg("./image/menu/mainBg.png");
 		this->btnsImg = img.loadOneImg("./image/menu/btnBg.png");
 		this->btnsImg = img.loadOneImg("./image/menu/btnBg.png");
-
-		this->font = font.getFont();
-
 	}
+
 	~gameplayClass()
 	{
 		SDL_FreeSurface(gameSettings::winSetting.surface);
@@ -53,13 +49,15 @@ public:
 
 	int mainLoop() {
 		SDL_Event event;
+		fontClass font;
 
-		menuClass menu = menuClass(this->imgBgMenu, this->btnsImg, this->font);
-		settingWinClass settingWin = settingWinClass(this->imgBgMenu, this->btnsImg, this->btnsImg, this->font);
-		aboutWinClass aboutWin = aboutWinClass(this->imgBgMenu, this->btnsImg, this->font);
-		statisticWinClass statisticWin = statisticWinClass(this->imgBgMenu, this->btnsImg, this->font);
 
-		headerClass header = headerClass(this->imgBgMenu, this->btnsImg, this->font);
+		menuClass menu = menuClass(this->imgBgMenu, this->btnsImg, font.getFont());
+		settingWinClass settingWin = settingWinClass(this->imgBgMenu, this->btnsImg, this->btnsImg, font.getFont());
+		aboutWinClass aboutWin = aboutWinClass(this->imgBgMenu, this->btnsImg, font.getFont());
+		statisticWinClass statisticWin = statisticWinClass(this->imgBgMenu, this->btnsImg, font.getFont());
+
+		headerClass header = headerClass(this->imgBgMenu, this->btnsImg, font.getFont());
 
 
 
@@ -190,9 +188,6 @@ public:
 			{
 				header.blit();
 				SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
-
-
 			}
 
 			SDL_Delay(1000 / 60);

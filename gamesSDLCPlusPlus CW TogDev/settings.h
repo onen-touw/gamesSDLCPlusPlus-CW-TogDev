@@ -71,14 +71,13 @@ struct fieldSettings
 	short hardness = hardnessEn::easy;
 	enum images
 	{
-		cellDead,
-		cellLive,
+	
 
 		TOTAL
 	};
 	std::vector<imagePath>fieldImagesPathVector = {
-		{"", images::cellDead},
-		{"", images::cellLive},
+		/*{"", images::cellDead},
+		{"", images::cellLive},*/
 	};
 
 };
