@@ -131,7 +131,6 @@ public:
 					{
 				
 						this->oneTickAction();
-						//gLoop = 0;
 						field.blitField();
 						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
@@ -193,7 +192,6 @@ public:
 							break;
 						case menu.btnsEnum::loadBtn:
 							std::cout << "Menu::buttons::load\n";
-							this->menuFlag = gameSettings::menuSetting.load;
 							field.setfieldV(save.getSave());
 							field.blitField();
 							break;
@@ -204,7 +202,6 @@ public:
 							break;
 						case menu.btnsEnum::save:
 							std::cout << "Menu::buttons::save\n";
-							this->menuFlag = gameSettings::menuSetting.save;
 							save.setSave(field.getfieldV(), gameSettings::fieldSetting.hardness);
 							break;
 						case menu.btnsEnum::aboutGame:
@@ -272,24 +269,6 @@ public:
 							this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
 							menu.blit();
 						}
-					}
-					else if (this->menuFlag == gameSettings::menuSetting.load)
-					{
-						///=PASS=
-
-						///TEMP
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-						menu.blit();
-						///TEMP
-					}
-					else if (this->menuFlag == gameSettings::menuSetting.save)
-					{
-						///=PASS=
-
-						///TEMP
-						this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
-						menu.blit();
-						///TEMP
 					}
 				}
 
