@@ -14,7 +14,8 @@ private:
 		{"СБРОСИТЬ", {gameSettings::menuSetting.btnW + 40, 20, gameSettings::menuSetting.btnW, gameSettings::menuSetting.btnH}},
 	};
 	SDL_Rect Rect = { 0, 0 , gameSettings::winSetting.winW, gameSettings::winSetting.header };
-	
+	std::string text1 = "";
+	std::string text2 = "";
 public:
 	headerClass(SDL_Surface* bgImg, SDL_Surface* btnImg, TTF_Font* font) :
 		interfaceObjects(bgImg, btnImg, font) {
@@ -29,24 +30,24 @@ public:
 	void blit() {
 		this->blitBg();
 		this->blitBtns();
+		int W = gameSettings::winSetting.winW / 3;
+		this->blitTxt(text1.c_str(), { gameSettings::winSetting.winW - 2 * W + W / 2, 30, 100, 40 });
+		this->blitTxt(text2.c_str(), { gameSettings::winSetting.winW - W + W / 2, 30, 100, 40 });
 	}
 
-	void blitCompairResult(int lLenth, int rLenth) {
-		std::string text = "";
-		if (lLenth > rLenth)
-		{
-			text = "В левом объекте " + std::to_string((lLenth / (float)rLenth)) + " правых";
-		}
-		else if (lLenth < rLenth)
-		{
-			text = "В правом объекте " + std::to_string((rLenth / (float)lLenth)) + " левых";
-		}
-		else
-		{
-			text = "Объекты равны";
-		}
+	void blitLeftWeight(int lWeight) {
+		text1 = std::to_string((lWeight));
 		this->blit();
-		this->blitTxt(text.c_str(), { gameSettings::winSetting.winW /2, 30, 100, 40 });
+	}
+	void blitRightWeight(int RWeight) {
+		text2 = std::to_string((RWeight));
+		this->blit();
+	}
+	void resetH()
+	{
+		this->text1 = "";
+		this->text2 = "";
+		blit();
 	}
 };
 

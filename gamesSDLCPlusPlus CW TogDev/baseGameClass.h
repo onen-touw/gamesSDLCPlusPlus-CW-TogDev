@@ -5,33 +5,12 @@
 
 class baseGameClass
 {
-private:
-
-
-	//short safePadingTop = 100;
-
 public:
 	baseGameClass() {
 		
 		//this->calculateWinParametrs();
 	}
 	~baseGameClass(){}
-
-	//void calculateWinParametrs() {
-	//	gameSettings::fieldSetting.minCountCellInWin.height = 
-	//		int((GetSystemMetrics(SM_CYSCREEN) - this->safePadingTop - gameSettings::winObjSize.winTopBorder - 
-	//			gameSettings::winObjSize.menuHeader) / gameSettings::winObjSize.cellSize);
-	//	gameSettings::fieldSetting.minCountCellInWin.width = int(GetSystemMetrics(SM_CXSCREEN) / gameSettings::winObjSize.cellSize);
-	//	
-	//	this->winSize.width = gameSettings::fieldSetting.minCountCellInWin.width * gameSettings::winObjSize.cellSize;
-	//	this->winSize.height = gameSettings::fieldSetting.minCountCellInWin.height * gameSettings::winObjSize.cellSize + gameSettings::winObjSize.menuHeader;
-	//	std::cout << gameSettings::fieldSetting.minCountCellInWin.height << "x" <<
-	//		gameSettings::fieldSetting.minCountCellInWin.width << "\n" <<
-	//		this->winSize.height << "x" <<
-	//		this->winSize.width << "\n";
-	//}
-
-	
 
 	bool initModuls() {
 		bool success = true;

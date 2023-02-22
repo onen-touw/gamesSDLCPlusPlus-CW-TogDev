@@ -48,9 +48,6 @@
     <ClCompile Include="menuClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="settingWinClass.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="aboutWinClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -60,7 +57,10 @@
     <ClCompile Include="headerClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="tempBgAllClass.cpp">
+    <ClCompile Include="midSectionClass.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="rulerWinClass.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,10 @@
     <ClInclude Include="headerClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="tempBgAllClass.h">
+    <ClInclude Include="midSectionClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="scalesWinClass.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

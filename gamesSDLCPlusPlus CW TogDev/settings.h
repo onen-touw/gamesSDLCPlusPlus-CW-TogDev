@@ -6,7 +6,7 @@
 #include<SDL.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
-
+#include <time.h>
 
 ///nessesary for menu work
 ///========================================================================================
@@ -33,7 +33,7 @@ struct winSettings
 	const short header = 70;
 	const short block = 400;
 	const short midSection = 200;
-	const short winH = 600+this->header;
+	const short winH = 620+this->header;
 	const short winW = block*2 + this->midSection;
 	const short winTopBorder = 31;
 
@@ -59,9 +59,10 @@ struct point
 };
 
 enum ObjectID {
-	cat,
-	python,
-	cow,
+	g2,
+	g5,
+	g10,
+	g,
 
 	TOTAL
 };
@@ -74,9 +75,10 @@ enum ObjectID {
 
 struct objectsForCompair {
 	std::vector<objParams>objParam = {
-		{"./image/objects/cat.png", cat, 5},
-		{"./image/objects/python.png", python,20},
-		{"./image/objects/cow.png" , cow, 99},
+		{"./image/objects/g2.png",g2, 2},
+		{"./image/objects/g5.png", g5, 5},
+		{"./image/objects/g10.png" , g10, 10},
+		{"./image/objects/g.png" , g, short(rand()%50)},
 	};
 };
 

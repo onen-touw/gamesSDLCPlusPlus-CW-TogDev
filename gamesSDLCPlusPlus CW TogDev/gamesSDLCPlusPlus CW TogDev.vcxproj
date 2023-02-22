@@ -160,7 +160,7 @@
     <ClInclude Include="imageClass.h" />
     <ClInclude Include="menuClass.h" />
     <ClInclude Include="midSectionClass.h" />
-    <ClInclude Include="rulerWinClass.h" />
+    <ClInclude Include="scalesWinClass.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="settingWinClass.h" />
     <ClInclude Include="statisticWinClass.h" />

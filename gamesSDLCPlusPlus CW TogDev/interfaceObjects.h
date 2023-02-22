@@ -88,21 +88,6 @@ public:
 		SDL_FreeSurface(tempSurf);
 	}
 
-	/*void blitWithTxt(SDL_Surface* img, const char* text, SDL_Rect objRect, SDL_Color color = { 0,0,0 }) {
-		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &objRect);
-
-		SDL_Rect tempRect = { objRect.x + this->pading, objRect.y + this->pading,
-			objRect.w - 2 * pading, objRect.h - 2 * pading };
-		if (this->font == nullptr)
-		{
-			std::cout << "error\n";
-		}
-		SDL_Surface* tempSurf = TTF_RenderText_Blended_Wrapped(this->font, text, color, tempRect.w);
-		SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
-		SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-		SDL_FreeSurface(tempSurf);
-	}*/
-
 	SDL_Rect getRect() { return this->objRect; }
 
 	void blitTxt(const char* text, SDL_Rect rect, SDL_Color color = { 0,0,0 }) {

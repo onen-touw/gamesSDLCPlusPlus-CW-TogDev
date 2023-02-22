@@ -8,7 +8,7 @@
 #include"headerClass.h"
 #include<sstream>
 
-#include "rulerWinClass.h"
+#include "scalesWinClass.h"
 #include "midSectionClass.h"
 
 
@@ -29,9 +29,13 @@ private:
 	bool pictChose = false;
 	int pictRight = 0;
 	int pictLeft = 0;
+	float rightPosY = 420;
+	float leftPosY = 420;
+	SDL_Surface* CH = nullptr;
+	float speed = 0;
 
 	int menuFlag = gameSettings::menuSetting.close;
-	rulerWinClass* sections[2];
+	scalesWinClass* sections[2];
 	midSectionClass* midSection = nullptr;
 
 public:
@@ -41,9 +45,64 @@ public:
 		SDL_BlitScaled(img, NULL, gameSettings::winSetting.surface, &mr);
 	}
 
+	void setSpeedAndYPos()
+	{
+		this->leftPosY += speed;
+		this->rightPosY -= speed;
+		if (this->sections[0]->tempGetL() > this->sections[1]->tempGetL())
+		{
+			if (this->leftPosY <= 620)
+			{
+				speed += 0.4;
+			}
+			else
+			{
+				speed = 0;
+				this->leftPosY = 620;
+				this->rightPosY = 220;
+			}
+
+		}
+		else if (this->sections[0]->tempGetL() < this->sections[1]->tempGetL())
+		{
+			if (this->rightPosY <= 620)
+			{
+				speed -= 0.4;
+			}
+			else
+			{
+				speed = 0;
+				this->leftPosY = 220;
+				this->rightPosY = 620;
+			}
+		}
+		else
+		{
+			if (this->leftPosY > this->rightPosY)
+			{
+				speed -= 0.4;
+			}
+			else
+			{
+				speed += 0.4;
+			}
+			if (this->leftPosY < 430 && this->leftPosY > 410)
+			{
+				speed *= 0.9;
+			}
+			if (this->leftPosY < 422 && this->leftPosY >= 418 && fabs(speed) < 1)
+			{
+				speed = 0;
+				leftPosY = 420;
+				rightPosY = 420;
+			}
+		}
+	}
+
 	int start() {
 
-
+		srand(time(0));
+		gameSettings::objectsFC.objParam[3].lenth = short(rand() % 50);
 
 		if (this->base.initModuls())
 		{
@@ -53,13 +112,14 @@ public:
 			aboutWinClass aboutWin = aboutWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 			settingWinClass settingsWin= settingWinClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
+			this->CH = img.loadOneImg("./image/objects/CH.png");
 
 			headerClass header = headerClass(img.loadOneImg("./image/menu/mainBg.png"), img.loadOneImg("./image/menu/btnBg.png"), font.getFont());
 
-			this->sections[0] = new rulerWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
+			this->sections[0] = new scalesWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
 				{0,gameSettings::winSetting.header, gameSettings::winSetting.block, 
 				gameSettings::winSetting.winH-gameSettings::winSetting.header});
-			this->sections[1] = new rulerWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
+			this->sections[1] = new scalesWinClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(),
 				{gameSettings::winSetting.block + gameSettings::winSetting.midSection,gameSettings::winSetting.header, gameSettings::winSetting.block, 
 				gameSettings::winSetting.winH-gameSettings::winSetting.header});
 			this->midSection = new midSectionClass(img.loadOneImg("./image/menu/mainBg.png"), font.getFont(), { 
@@ -75,8 +135,9 @@ public:
 			sections[1]->blit();
 			this->midSection->blit();
 			header.blit();
+			this->sections[0]->blitCH(1, leftPosY, CH);
+			this->sections[1]->blitCH(2, rightPosY, CH);
 			SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
 
 			while (SDL_PollEvent(&event) || this->game)
 			{
@@ -101,10 +162,17 @@ public:
 							this-> pictChose = false;
 							this->pictRight = 0;
 							this->pictLeft = 0;
+							sections[0]->resetWin();
 							sections[0]->blit();
+							sections[1]->resetWin();
 							sections[1]->blit();
+							leftPosY = 420;
+							rightPosY = 420;
+							speed = 0;
+							this->sections[0]->blitCH(1, leftPosY, CH);
+							this->sections[1]->blitCH(2, rightPosY, CH);
 							this->midSection->blit();
-							header.blit();
+							header.resetH();
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 						}
 					}
@@ -126,7 +194,8 @@ public:
 						case menu.btnsEnum::setting:
 							std::cout << "Menu::buttons::statistic\n";
 							this->menuFlag = gameSettings::menuSetting.setting;
-					
+							rightPosY = 420;
+
 							settingsWin.blit();
 							break;
 						case menu.btnsEnum::aboutGame:
@@ -158,56 +227,29 @@ public:
 
 					std::stringstream sars;
 					SDL_StartTextInput();
-					std::string text = "¬ведите попор€дку размеры кота:";
-					SDL_Rect tempRect = { gameSettings::winSetting.winW / 2 - 100, 200, };
+					std::string text = "¬ведите массу гири в килограммах (ремендуетс€ в пределах 100):";
+					SDL_Rect tempRect = { gameSettings::winSetting.winW / 2 - 350, 200, };
 					SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
-					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
-					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-					SDL_FreeSurface(tempSurf);
-					text = "¬ведите попор€дку размеры питона:";
-					tempRect = { gameSettings::winSetting.winW / 2 - 100, 300, };
-					tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
-					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
-					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-					SDL_FreeSurface(tempSurf);
-					text = "¬ведите попор€дку размеры коровы:";
-					tempRect = { gameSettings::winSetting.winW / 2 - 100, 400, };
-					tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
 					SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 					SDL_FreeSurface(tempSurf);
 					SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 					text = "";
-					short int counter = 0;
 					while (true)
 					{
 						SDL_PollEvent(&event);
 						if (event.type == SDL_TEXTINPUT)
 						{
-
 							text += event.text.text;
-							//std::cout << text << std::endl;
-							if (counter == 0)
-							{
-								tempRect = { gameSettings::winSetting.winW / 2 - 70, 250, };
-							}
-							else if (counter == 1)
-							{
-								tempRect = { gameSettings::winSetting.winW / 2 - 70, 350, };
-							}
-							else if (counter == 2)
-							{
-								tempRect = { gameSettings::winSetting.winW / 2 - 70, 450, };
-							}
+							tempRect = { gameSettings::winSetting.winW / 2 - 70, 250, };
 							SDL_Surface* tempSurf = TTF_RenderText_Solid(font.getFont(), text.c_str(), { 0,0,0 });
 							SDL_BlitSurface(tempSurf, NULL, gameSettings::winSetting.surface, &tempRect);
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 							SDL_FreeSurface(tempSurf);
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-
 						}
-						else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONUP)
+						else if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONDOWN)
 						{
 							SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
 							if (settingsWin.checkButtonClick(this->cursor_X, this->cursor_Y) == settingsWin.cancel)
@@ -220,27 +262,13 @@ public:
 							if (settingsWin.checkButtonClick(this->cursor_X, this->cursor_Y) == settingsWin.apply)
 							{
 								std::cout << "aboutWin::buttons::cancel\n";
-								if (counter == 0)
-								{
-									int size = std::stoi(text);
-									gameSettings::objectsFC.objParam[0].lenth = size;
-									std::cout << size << std::endl;
-								}
-								else if (counter == 1)
-								{
-									int size = std::stoi(text);
-									gameSettings::objectsFC.objParam[1].lenth = size;
-									std::cout << size << std::endl;
-								}
-								else if (counter == 2)
-								{
-									int size = std::stoi(text);
-									gameSettings::objectsFC.objParam[2].lenth = size;
-									std::cout << size << std::endl;
-								}
-								counter++;
-								std::cout << counter << std::endl;
+								int size = std::stoi(text);
+								gameSettings::objectsFC.objParam[3].lenth = size;
+								std::cout << size << std::endl;
 								text = "";
+								this->menuFlag = gameSettings::menuSetting.mainMenuWindow;
+								menu.blit();
+								break;
 							}
 						}
 					}
@@ -256,7 +284,7 @@ public:
 					
 					if (event.button.button == SDL_BUTTON_LEFT && event.type == SDL_MOUSEBUTTONDOWN) {
 						SDL_GetMouseState(&this->cursor_X, &this->cursor_Y);
-						if (!this->pictChose && this->pictLeft+this->pictRight<2)
+						if (!this->pictChose)
 						{
 							std::cout << "yeahboy\n";
 							this->tempImg = this->midSection->choseImgByClick(this->cursor_X, this->cursor_Y);
@@ -283,7 +311,7 @@ public:
 						if (this->pictChose) {
 							if (this->cursor_Y > gameSettings::winSetting.header)
 							{
-								if (this->cursor_X < gameSettings::winSetting.block && this->pictLeft<1)
+								if (this->cursor_X < gameSettings::winSetting.block)
 								{
 									this->sections[0]->setPictureToCompaire(this->tempImg, this->midSection->getImgLenth());
 									this->pictLeft++;
@@ -291,7 +319,7 @@ public:
 									SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 									this->pictChose = false;
 								}
-								else if (this->cursor_X > gameSettings::winSetting.block + gameSettings::winSetting.midSection && this->pictRight<1)
+								else if (this->cursor_X > gameSettings::winSetting.block + gameSettings::winSetting.midSection)
 								{
 									this->sections[1]->setPictureToCompaire(this->tempImg, this->midSection->getImgLenth());
 									this->pictRight++;
@@ -302,24 +330,28 @@ public:
 							}
 						}
 					}
+					this->sections[0]->blitCH(1, leftPosY, CH);
+					this->sections[1]->blitCH(2, rightPosY, CH);
 					if (this->pictLeft || this->pictRight )
 					{
-
+						setSpeedAndYPos();
 						if (this->pictLeft)
 						{
 							//std::cout << this->sections[0]->tempGetL() << " lLeft\n";
-							this->sections[0]->blitPict();
+							this->sections[0]->blitPicts(1, leftPosY);
+							header.blitLeftWeight(this->sections[0]->tempGetL());
 						}
 						if (this->pictRight)
 						{
 							//std::cout << this->sections[1]->tempGetL() << " lRight\n";
-							this->sections[1]->blitPict();
+							this->sections[1]->blitPicts(2, rightPosY);
+							header.blitRightWeight(this->sections[1]->tempGetL());
 						}
-						if (this->pictLeft + this->pictRight == 2)
+						/*if (this->pictLeft + this->pictRight == 2)
 						{
 							header.blitCompairResult(this->sections[0]->tempGetL(), this->sections[1]->tempGetL());
 							SDL_UpdateWindowSurface(gameSettings::winSetting.win);
-						}
+						}*/
 						SDL_UpdateWindowSurface(gameSettings::winSetting.win);
 
 					}
