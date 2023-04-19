@@ -48,7 +48,6 @@ struct objParams
 {
 	std::string path;
 	short int position;
-	short lenth;
 };
 
 
@@ -59,9 +58,15 @@ struct point
 };
 
 enum ObjectID {
-	cat,
-	python,
-	cow,
+	p1_3x3,
+	p2_3x3,
+	p3_3x3,
+	p4_3x3,
+	p5_3x3,
+	p6_3x3,
+	p7_3x3,
+	p8_3x3,
+	p9_3x3,
 
 	TOTAL
 };
@@ -74,9 +79,15 @@ enum ObjectID {
 
 struct objectsForCompair {
 	std::vector<objParams>objParam = {
-		{"./image/objects/cat.png", cat, 5},
-		{"./image/objects/python.png", python,20},
-		{"./image/objects/cow.png" , cow, 99},
+		{"./image/pieces/3x3/1.png", p1_3x3},
+		{"./image/pieces/3x3/2.png", p2_3x3},
+		{"./image/pieces/3x3/3.png", p3_3x3},
+		{"./image/pieces/3x3/4.png", p4_3x3},
+		{"./image/pieces/3x3/5.png", p5_3x3},
+		{"./image/pieces/3x3/6.png", p6_3x3},
+		{"./image/pieces/3x3/7.png", p7_3x3},
+		{"./image/pieces/3x3/8.png", p8_3x3},
+		{"./image/pieces/3x3/9.png", p9_3x3}
 	};
 };
 
